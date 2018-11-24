@@ -4,14 +4,20 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
-</ion-content>
+<ion-content>
+  <ion-card class = "card">
+    <img src="assets/imgs/slievedonard.jpg">
+      <ion-item>
+        <ion-icon name="walk" item-start large></ion-icon>
+        <h2>Slieve Donard</h2>
+        <p>Moderate</p>
+      </ion-item>
+      <ion-item>
+        <p>2.9 (one way) miles</p>
+        <button ion-button (click)="btnDonard()" icon-start item-end >
+          <ion-icon name="navigate"></ion-icon>
+            Start
+        </button>
+      </ion-item>
+    </ion-card>
+ </ion-content>
