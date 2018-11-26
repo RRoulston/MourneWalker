@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+declare var google: any;
 @IonicPage()
 @Component({
   selector: 'page-slieve-donard',
@@ -9,6 +10,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class SlieveDonardPage {
 
   @ViewChild('map') mapRef: ElementRef
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -36,7 +38,7 @@ export class SlieveDonardPage {
   }
 
    addPolylines(map) {
-     const flightpath = new google.maps.Polyline({
+     const trailpath = new google.maps.Polyline({
        path: [
          new google.maps.LatLng(54.205384, -5.895069),
          new google.maps.LatLng(54.204970, -5.896140),
@@ -51,21 +53,20 @@ export class SlieveDonardPage {
          new google.maps.LatLng(54.202190, -5.897920),
          new google.maps.LatLng(54.202010, -5.898200),
          new google.maps.LatLng(54.202010, -5.898200),
-         new google.maps.LatLng(54.20125, -5.89967),
-         new google.maps.LatLng(54.20106, -5.90016),
-         new google.maps.LatLng(54.20084, -5.90058),
-         new google.maps.LatLng(54.20057, -5.90081),
-         new google.maps.LatLng(54.20033, -5.90082),
-         new google.maps.LatLng(54.19983, -5.90143),
-         new google.maps.LatLng(54.19946, -5.90215),
-         new google.maps.LatLng(54.1997, -5.90241),
-         new google.maps.LatLng(54.19997, -5.90253),
-         new google.maps.LatLng(54.1999, -5.903),
-         new google.maps.LatLng(54.19969, -5.90396),
-         new google.maps.LatLng(54.199099, -5.904907),
-         new google.maps.LatLng(54.198761, -5.906013),
-         new google.maps.LatLng(54.198517, -5.906721),
-         new google.maps.LatLng(54.198059, -5.907961),
+         new google.maps.LatLng(54.201250, -5.899670),
+         new google.maps.LatLng(54.201060, -5.900160),
+         new google.maps.LatLng(54.200840, -5.900580),
+         new google.maps.LatLng(54.200570, -5.900810),
+         new google.maps.LatLng(54.200330, -5.900820),
+         new google.maps.LatLng(54.199830, -5.901430),
+         new google.maps.LatLng(54.199460, -5.902150),
+         new google.maps.LatLng(54.199700, -5.902410),
+         new google.maps.LatLng(54.199970, -5.902530),
+         new google.maps.LatLng(54.199900, -5.903000),
+         new google.maps.LatLng(54.199690, -5.903960),
+         new google.maps.LatLng(54.198800, -5.905500),
+         new google.maps.LatLng(54.198400, -5.906900),
+         new google.maps.LatLng(54.198100, -5.907900),
          new google.maps.LatLng(54.198125, -5.908238),
          new google.maps.LatLng(54.197589, -5.909439),
          new google.maps.LatLng(54.197347, -5.910057),
@@ -131,7 +132,10 @@ export class SlieveDonardPage {
          new google.maps.LatLng(54.183646, -5.931847),
          new google.maps.LatLng(54.183601, -5.932157),
          new google.maps.LatLng(54.183212, -5.932429),
-         new google.maps.LatLng(54.182890, -5.932884),
+         new google.maps.LatLng(54.182753, -5.933122),
+         new google.maps.LatLng(54.180570, -5.924408),
+         new google.maps.LatLng(54.180454, -5.923567),
+         new google.maps.LatLng(54.180281, -5.920931),
          new google.maps.LatLng(54.180228, -5.920820)
        ],
        geodesic: true,
@@ -139,6 +143,6 @@ export class SlieveDonardPage {
        strokeOpacity: 1.0,
        strokeWeight: 2
     });
-      flightpath.setMap(map)
+      trailpath.setMap(map)
   }
 }

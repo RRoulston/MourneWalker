@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { GoogleMaps} from '@ionic-native/google-maps';
 
 import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { WeatherPage } from '../pages/weather/weather';
@@ -21,7 +20,6 @@ import { WeatherProvider } from '../providers/weather/weather';
   declarations: [
     MyApp,
     AboutPage,
-    ContactPage,
     HomePage,
     TabsPage,
     WeatherPage,
@@ -37,7 +35,6 @@ import { WeatherProvider } from '../providers/weather/weather';
   entryComponents: [
     MyApp,
     AboutPage,
-    ContactPage,
     HomePage,
     TabsPage,
     WeatherPage,
