@@ -1,18 +1,18 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import leaflet from 'leaflet';
 
-declare var google: any;
+// declare var google: any;
 @IonicPage()
 @Component({
   selector: 'page-slieve-donard',
   templateUrl: 'slieve-donard.html',
 })
 export class SlieveDonardPage {
-
   @ViewChild('map') mapRef: ElementRef
-
-
+  map: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+
   }
 
   ionViewDidLoad() {
@@ -21,128 +21,133 @@ export class SlieveDonardPage {
     this.showMap();
   }
 
+
+
   showMap() {
-    //location - lat long
-    const location = new google.maps.LatLng(54.193538, -5.916312);
+    this.map = leaflet.map("map").setView([54.1868, -5.9208], 13);
+    leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox.outdoors',
+      accessToken: 'pk.eyJ1IjoicmFscGhyb3Vsc3RvbiIsImEiOiJjam95aDhpMzEyYnB3M3ZrZnE3MjdjOWVlIn0.FeeqFD1DuDkmlrN0fD8TVg'
+    }).addTo(this.map);
 
-    //Map Options
-    const options = {
-    center: location,
-    zoom: 13,
-    mapTypeId: 'hybrid'
-    };
-
-    const map = new google.maps.Map(this.mapRef.nativeElement, options);
-
-    this.addPolylines(map)
+    this.addPolylines(map);
   }
 
-   addPolylines(map) {
-     const trailpath = new google.maps.Polyline({
-       path: [
-         new google.maps.LatLng(54.205384, -5.895069),
-         new google.maps.LatLng(54.204970, -5.896140),
-         new google.maps.LatLng(54.204840, -5.896360),
-         new google.maps.LatLng(54.204630, -5.896650),
-         new google.maps.LatLng(54.204230, -5.897080),
-         new google.maps.LatLng(54.204030, -5.897180),
-         new google.maps.LatLng(54.203750, -5.897180),
-         new google.maps.LatLng(54.203100, -5.897110),
-         new google.maps.LatLng(54.202890, -5.897390),
-         new google.maps.LatLng(54.202390, -5.898130),
-         new google.maps.LatLng(54.202190, -5.897920),
-         new google.maps.LatLng(54.202010, -5.898200),
-         new google.maps.LatLng(54.202010, -5.898200),
-         new google.maps.LatLng(54.201250, -5.899670),
-         new google.maps.LatLng(54.201060, -5.900160),
-         new google.maps.LatLng(54.200840, -5.900580),
-         new google.maps.LatLng(54.200570, -5.900810),
-         new google.maps.LatLng(54.200330, -5.900820),
-         new google.maps.LatLng(54.199830, -5.901430),
-         new google.maps.LatLng(54.199460, -5.902150),
-         new google.maps.LatLng(54.199700, -5.902410),
-         new google.maps.LatLng(54.199970, -5.902530),
-         new google.maps.LatLng(54.199900, -5.903000),
-         new google.maps.LatLng(54.199690, -5.903960),
-         new google.maps.LatLng(54.198800, -5.905500),
-         new google.maps.LatLng(54.198400, -5.906900),
-         new google.maps.LatLng(54.198100, -5.907900),
-         new google.maps.LatLng(54.198125, -5.908238),
-         new google.maps.LatLng(54.197589, -5.909439),
-         new google.maps.LatLng(54.197347, -5.910057),
-         new google.maps.LatLng(54.197258, -5.910158),
-         new google.maps.LatLng(54.197075, -5.910618),
-         new google.maps.LatLng(54.196652, -5.911687),
-         new google.maps.LatLng(54.196243, -5.913166),
-         new google.maps.LatLng(54.195944, -5.913850),
-         new google.maps.LatLng(54.195752, -5.914137),
-         new google.maps.LatLng(54.195597, -5.914603),
-         new google.maps.LatLng(54.195149, -5.915640),
-         new google.maps.LatLng(54.195108, -5.915799),
-         new google.maps.LatLng(54.194960, -5.916190),
-         new google.maps.LatLng(54.194908, -5.916472),
-         new google.maps.LatLng(54.194486, -5.917752),
-         new google.maps.LatLng(54.194259, -5.918377),
-         new google.maps.LatLng(54.193643, -5.919733),
-         new google.maps.LatLng(54.193643, -5.919733),
-         new google.maps.LatLng(54.193425, -5.920522),
-         new google.maps.LatLng(54.193396, -5.920974),
-         new google.maps.LatLng(54.193173, -5.921289),
-         new google.maps.LatLng(54.192976, -5.921523),
-         new google.maps.LatLng(54.192863, -5.921772),
-         new google.maps.LatLng(54.192395, -5.923280),
-         new google.maps.LatLng(54.191542, -5.925254),
-         new google.maps.LatLng(54.191445, -5.925274),
-         new google.maps.LatLng(54.191386, -5.925441),
-         new google.maps.LatLng(54.191407, -5.925532),
-         new google.maps.LatLng(54.191307, -5.925812),
-         new google.maps.LatLng(54.191064, -5.926077),
-         new google.maps.LatLng(54.190932, -5.926265),
-         new google.maps.LatLng(54.190850, -5.926444),
-         new google.maps.LatLng(54.190791, -5.926641),
-         new google.maps.LatLng(54.190724, -5.926653),
-         new google.maps.LatLng(54.190627, -5.926842),
-         new google.maps.LatLng(54.190292, -5.927401),
-         new google.maps.LatLng(54.190292, -5.927401),
-         new google.maps.LatLng(54.189911, -5.927765),
-         new google.maps.LatLng(54.189481, -5.928112),
-         new google.maps.LatLng(54.189266, -5.928488),
-         new google.maps.LatLng(54.188833, -5.928880),
-         new google.maps.LatLng(54.188452, -5.929007),
-         new google.maps.LatLng(54.187966, -5.929383),
-         new google.maps.LatLng(54.187718, -5.929443),
-         new google.maps.LatLng(54.187631, -5.929561),
-         new google.maps.LatLng(54.187477, -5.929626),
-         new google.maps.LatLng(54.187315, -5.929808),
-         new google.maps.LatLng(54.187046, -5.929887),
-         new google.maps.LatLng(54.186901, -5.929962),
-         new google.maps.LatLng(54.186799, -5.929812),
-         new google.maps.LatLng(54.186042, -5.929802),
-         new google.maps.LatLng(54.185662, -5.929505),
-         new google.maps.LatLng(54.185087, -5.929306),
-         new google.maps.LatLng(54.184901, -5.929378),
-         new google.maps.LatLng(54.184787, -5.929339),
-         new google.maps.LatLng(54.184387, -5.929594),
-         new google.maps.LatLng(54.184170, -5.929977),
-         new google.maps.LatLng(54.184111, -5.929981),
-         new google.maps.LatLng(54.183683, -5.931084),
-         new google.maps.LatLng(54.183706, -5.931161),
-         new google.maps.LatLng(54.183676, -5.931217),
-         new google.maps.LatLng(54.183683, -5.931741),
-         new google.maps.LatLng(54.183646, -5.931847),
-         new google.maps.LatLng(54.183601, -5.932157),
-         new google.maps.LatLng(54.183212, -5.932429),
-         new google.maps.LatLng(54.182753, -5.933122),
-         new google.maps.LatLng(54.180570, -5.924408),
-         new google.maps.LatLng(54.180454, -5.923567),
-         new google.maps.LatLng(54.180281, -5.920931),
-         new google.maps.LatLng(54.180228, -5.920820)
-       ],
-       geodesic: true,
-       strokeColor: '#FF0000',
-       strokeOpacity: 1.0,
-       strokeWeight: 2
-    });
-      trailpath.setMap(map)
-  }
+  addPolylines(map) {
+    var latlngs = [
+      [54.20583, -5.89436],
+      [54.20537, -5.895],
+      [54.20496, -5.89615],
+      [54.20484, -5.89636],
+      [54.20462, -5.89666],
+      [54.20424, -5.89708],
+      [54.20404, -5.89718],
+      [54.20374, -5.89719],
+      [54.2031, -5.8971],
+      [54.20282, -5.89747],
+      [54.20239, -5.89813],
+      [54.20219, -5.89793],
+      [54.20201, -5.89819],
+      [54.20183, -5.89862],
+      [54.20124, -5.89968],
+      [54.20105, -5.90017],
+      [54.20084, -5.90058],
+      [54.20058, -5.90082],
+      [54.20033, -5.90082],
+      [54.19983, -5.90143],
+      [54.19946, -5.90214],
+      [54.1997, -5.90241],
+      [54.19998, -5.90253],
+      [54.19989, -5.90302],
+      [54.19983, -5.90327],
+      [54.1997, -5.90401],
+      [54.19882, -5.90557],
+      [54.19839, -5.90684],
+      [54.19812, -5.90798],
+      [54.19544, -5.91475],
+      [54.19517, -5.91589],
+      [54.194, -5.91854],
+      [54.19299, -5.92136],
+      [54.19258, -5.92233],
+      [54.1925, -5.92245],
+      [54.19248, -5.92257],
+      [54.19242, -5.92264],
+      [54.19239, -5.92273],
+      [54.19237, -5.9228],
+      [54.19231, -5.92297],
+      [54.19228, -5.92317],
+      [54.19225, -5.92329],
+      [54.19214, -5.9235],
+      [54.19208, -5.92352],
+      [54.19205, -5.92358],
+      [54.192, -5.92362],
+      [54.19196, -5.92371],
+      [54.19193, -5.92375],
+      [54.1919, -5.92385],
+      [54.19185, -5.92391],
+      [54.19181, -5.92395],
+      [54.19174, -5.92413],
+      [54.19172, -5.92418],
+      [54.19168, -5.92429],
+      [54.19163, -5.92437],
+      [54.1916, -5.92446],
+      [54.19157, -5.92457],
+      [54.19156, -5.92468],
+      [54.19154, -5.92477],
+      [54.19149, -5.92484],
+      [54.19147, -5.92491],
+      [54.19127, -5.92576],
+      [54.19108, -5.92599],
+      [54.191, -5.92614],
+      [54.19091, -5.92633],
+      [54.19086, -5.92646],
+      [54.19079, -5.92654],
+      [54.19075, -5.92662],
+      [54.19072, -5.92663],
+      [54.1907, -5.92663],
+      [54.19066, -5.92668],
+      [54.19063, -5.92678],
+      [54.18894, -5.92871],
+      [54.18714, -5.92987],
+      [54.18662, -5.9297],
+      [54.1862, -5.9298],
+      [54.18606, -5.9298],
+      [54.18592, -5.92974],
+      [54.18563, -5.9295],
+      [54.1855, -5.92947],
+      [54.18526, -5.92937],
+      [54.18516, -5.92934],
+      [54.18501, -5.92933],
+      [54.18498, -5.92934],
+      [54.18487, -5.92939],
+      [54.18481, -5.92936],
+      [54.18472, -5.92939],
+      [54.18465, -5.92946],
+      [54.18459, -5.92949],
+      [54.18452, -5.9295],
+      [54.18446, -5.92956],
+      [54.18435, -5.92963],
+      [54.18424, -5.92983],
+      [54.18419, -5.92993],
+      [54.1841, -5.93002],
+      [54.18389, -5.93047],
+      [54.18368, -5.93104],
+      [54.18364, -5.93184],
+      [54.18361, -5.93207],
+      [54.18354, -5.93219],
+      [54.18339, -5.93226],
+      [54.18319, -5.93238],
+      [54.18264, -5.93255],
+      [54.18074, -5.92505],
+      [54.18046, -5.9235],
+      [54.18025, -5.92071]
+    ];
+    this.map = leaflet.polyline(latlngs, {
+      color: 'red',
+      opacity: 1.0,
+      weight: 2
+    }).addTo(this.map);
+ }
 }
