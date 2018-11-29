@@ -28,7 +28,31 @@ export class HikePage {
       accessToken: 'pk.eyJ1IjoicmFscGhyb3Vsc3RvbiIsImEiOiJjam95aDhpMzEyYnB3M3ZrZnE3MjdjOWVlIn0.FeeqFD1DuDkmlrN0fD8TVg'
     }).addTo(this.map);
 
+    this.addMarkers(this.map);
     this.addPolylines(this.map);
+  }
+
+  addMarkers(map) {
+    var summit = leaflet.icon({
+    iconUrl: 'assets/imgs/summitIcon.png',
+    iconSize:     [25, 25]
+    });
+    var beginning = leaflet.icon({
+    iconUrl: 'assets/imgs/hiking.png',
+    iconSize:     [25, 25]
+    });
+    var pointOfInterest = leaflet.icon({
+    iconUrl: 'assets/imgs/pointOfInterest.png',
+    iconSize:     [25, 25]
+    });
+    leaflet.marker([54.18025, -5.92071], {icon: summit}).addTo(this.map)
+      .bindPopup('<b>The Summit of Slieve Donard!</b><div><img style="width:100%"src="assets/imgs/slieveDonardSummit.png" alt="Slieve Donard Summit"></div>');
+
+    leaflet.marker([54.20583, -5.89436], {icon: beginning}).addTo(this.map)
+      .bindPopup('<b>Where your Hike Begins!</b>');
+
+    leaflet.marker([54.18019, -5.92085], {icon: pointOfInterest}).addTo(this.map)
+      .bindPopup('<b>The Stone Tower at the Summit of Slieve Donard!</b><div><img style="width:100%"src="assets/imgs/slieveDonardStonetower.jpg" alt"Slieve Donard Stone Tower"></div>');
   }
 
   addPolylines(map) {
