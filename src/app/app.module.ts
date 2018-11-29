@@ -4,17 +4,18 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { GoogleMaps} from '@ionic-native/google-maps';
 
 import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { WeatherPage } from '../pages/weather/weather';
-import { SlieveDonardPage } from '../pages/slieve-donard/slieve-donard';
+import { HikePage } from '../pages/hike/hike';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { WeatherProvider } from '../providers/weather/weather';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { WeatherProvider } from '../providers/weather/weather';
     HomePage,
     TabsPage,
     WeatherPage,
-    SlieveDonardPage
+    HikePage
   ],
   imports: [
     BrowserModule,
@@ -38,14 +39,15 @@ import { WeatherProvider } from '../providers/weather/weather';
     HomePage,
     TabsPage,
     WeatherPage,
-    SlieveDonardPage
+    HikePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    WeatherProvider
+    WeatherProvider,
+    Geolocation,
+    BackgroundGeolocation
   ]
 })
 export class AppModule {}

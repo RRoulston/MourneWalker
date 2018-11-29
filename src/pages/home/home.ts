@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { SlieveDonardPage } from '../slieve-donard/slieve-donard';
+import { HikePage } from '../hike/hike';
 
 @Component({
   selector: 'page-home',
@@ -12,7 +12,7 @@ export class HomePage {
 
   }
 
-  btnDonard(){
-    this.navCtrl.setRoot(SlieveDonardPage);
+  btnHike(){
+    this.navCtrl.setRoot(HikePage);
   }
 }

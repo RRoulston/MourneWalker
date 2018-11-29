@@ -2,26 +2,22 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import leaflet from 'leaflet';
 
-// declare var google: any;
 @IonicPage()
 @Component({
-  selector: 'page-slieve-donard',
-  templateUrl: 'slieve-donard.html',
+  selector: 'page-hike',
+  templateUrl: 'hike.html',
 })
-export class SlieveDonardPage {
+export class HikePage {
   @ViewChild('map') mapRef: ElementRef
   map: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SlieveDonardPage');
-    console.log(this.mapRef)
+    console.log('ionViewDidLoad HikePage');
+    console.log(this.mapRef);
     this.showMap();
   }
-
-
 
   showMap() {
     this.map = leaflet.map("map").setView([54.1868, -5.9208], 13);
@@ -32,7 +28,7 @@ export class SlieveDonardPage {
       accessToken: 'pk.eyJ1IjoicmFscGhyb3Vsc3RvbiIsImEiOiJjam95aDhpMzEyYnB3M3ZrZnE3MjdjOWVlIn0.FeeqFD1DuDkmlrN0fD8TVg'
     }).addTo(this.map);
 
-    this.addPolylines(map);
+    this.addPolylines(this.map);
   }
 
   addPolylines(map) {
@@ -149,5 +145,5 @@ export class SlieveDonardPage {
       opacity: 1.0,
       weight: 2
     }).addTo(this.map);
- }
+  }
 }
