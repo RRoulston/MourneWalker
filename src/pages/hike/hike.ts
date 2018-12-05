@@ -17,14 +17,6 @@ export class HikePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
   }
 
-  getLatitude() {
-    return this.latitude;
-  }
-
-  getLongitude() {
-    return this.longitude;
-  }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad HikePage');
     console.log(this.mapRef);
@@ -50,11 +42,12 @@ export class HikePage {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
+      leaflet.marker([this.latitude, this.longitude]).addTo(map)
+        .bindPopup('<b>Your Current Location!</b>');
     }).catch((error) => {
       console.log('Error getting location', error);
+
     });
-//    leaflet.marker([54.18025, -5.92071]).addTo(this.map)
-  //    .bindPopup('<b>Your Current Location!</b>');
   }
 
   addMarkers(map) {

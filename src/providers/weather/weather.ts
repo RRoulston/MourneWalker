@@ -18,7 +18,6 @@ export class WeatherProvider {
 
   constructor(public http: HttpClient) {
     console.log('Hello WeatherProvider Provider');
-  //  this.url = 'http://api.openweathermap.org/data/2.5/weather?lat=54.1533&lon=-6.0663&units=metric&APPID=ebce6cfc8d83e012cf501aced63e597f';
   }
 
   getWeatherData(){

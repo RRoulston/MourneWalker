@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { WeatherProvider } from '../../providers/weather/weather'
-/**
- * Generated class for the WeatherPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { WeatherProvider } from '../../providers/weather/weather';
 
 @IonicPage()
 @Component({
