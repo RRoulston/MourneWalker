@@ -5,19 +5,22 @@
 </ion-header>
 
 <ion-content>
-  <ion-card class = "card">
-    <img src="assets/imgs/slievedonard.jpg">
+  <ion-card>
+    <div class>
+    <button class="btn"(click) ="btnHike()" block>
+    <img src="assets/imgs/slievedonard.jpg" style="width : 100% ; height : 100%">
+    </button>
+    </div>
       <ion-item>
         <ion-icon name="walk" item-start large></ion-icon>
-        <h2>Slieve Donard</h2>
-        <p>Moderate</p>
+        <div class="hikeName">Slieve Donard (Donard Car Park)</div>
+        <div class="hikeInfo">Moderate </div>
+        <div class="hikeInfo">2.9 (one way) miles </div>
       </ion-item>
-      <ion-item>
-        <p>2.9 (one way) miles</p>
-        <button ion-button (click)="btnHike()" icon-start item-end >
-          <ion-icon name="navigate"></ion-icon>
-            Start
-        </button>
-      </ion-item>
+
+
+
+
+
     </ion-card>
  </ion-content>
