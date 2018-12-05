@@ -29,6 +29,6 @@ export class WeatherProvider {
 
     private catchError(error: Response | any){
       console.log(error);
-      return Observable.throw(error.json().error || "Server Error.")
+      return Observable.throw(error.json().error || "Server Error.");
     }
   }

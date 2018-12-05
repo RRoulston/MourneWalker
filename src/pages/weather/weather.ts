@@ -24,7 +24,7 @@ export class WeatherPage {
   sunset: any;
   lastUpdated: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public weatherProvider: WeatherProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private weatherProvider: WeatherProvider) {
     this.getWeather();
   }
 

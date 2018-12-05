@@ -1,3 +1,33 @@
 page-weather {
 
+.weather{
+    background-color: #00B0FF;
+    color:color($colors, light);
+    margin-top:30px;
+  }
+
+.weatherbackground{
+  background-color: #00B0FF;
+  }
+
+  .temperature{
+    font-size: 40px;
+    text-align: center;
+  }
+
+  .location, .icon, .description{
+    text-align: center;
+  }
+
+  .icon img{
+    width:75px;
+  }
+
+  .location{
+    font-size:35px
+  }
+
+  .description{
+    font-size: 30px
+  }
 }
