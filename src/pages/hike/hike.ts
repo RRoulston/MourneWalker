@@ -10,6 +10,7 @@ import leaflet from 'leaflet';
 })
 export class HikePage {
   @ViewChild('map') mapRef: ElementRef
+  //variables
   map: any;
   latitude: any;
   longitude: any;
@@ -17,62 +18,78 @@ export class HikePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
   }
 
+  //First method which runs on the hikes page
   ionViewDidLoad() {
     console.log('ionViewDidLoad HikePage');
     console.log(this.mapRef);
     this.showMap();
   }
 
+  //Guidance for creating map and markers from https://leafletjs.com/examples/quick-start/
+  //Creates a map from mapbox, with an outdoors layer
   showMap() {
+    //map opens at co-ordinates [54.1868, -5.9208] with a zoom 13
     this.map = leaflet.map("map").setView([54.1868, -5.9208], 13);
     leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
+      //outdoors layer
       id: 'mapbox.outdoors',
+      //API Key from mapbox
       accessToken: 'pk.eyJ1IjoicmFscGhyb3Vsc3RvbiIsImEiOiJjam95aDhpMzEyYnB3M3ZrZnE3MjdjOWVlIn0.FeeqFD1DuDkmlrN0fD8TVg'
     }).addTo(this.map);
 
+    //calling functions
     this.addGeoLocation(this.map);
     this.addMarkers(this.map);
     this.addPolylines(this.map);
   }
 
-
+  //using geolocation with Ionic https://ionicframework.com/docs/native/geolocation/
+  //adds users current location to the map using Ionic Geolocation plugin
   addGeoLocation(map) {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
+
+      //displays users current location in a marker on the map
       leaflet.marker([this.latitude, this.longitude]).addTo(map)
         .bindPopup('<b>Your Current Location!</b>');
+      //if theres an error return the following...
     }).catch((error) => {
       console.log('Error getting location', error);
-
     });
   }
 
+  //add markers to the map
   addMarkers(map) {
+    //create marker to be added at the summit of routes
     var summit = leaflet.icon({
-    iconUrl: 'assets/imgs/summitIcon.png',
-    iconSize: [25, 25]
+      iconUrl: 'assets/imgs/summitIcon.png',
+      iconSize: [25, 25]
     });
+    //create marker to be added at the beginning of routes
     var beginning = leaflet.icon({
-    iconUrl: 'assets/imgs/hiking.png',
-    iconSize: [25, 25]
+      iconUrl: 'assets/imgs/hiking.png',
+      iconSize: [25, 25]
     });
+    //create marker to be added at points of interest
     var pointOfInterest = leaflet.icon({
-    iconUrl: 'assets/imgs/pointOfInterest.png',
-    iconSize: [25, 25]
+      iconUrl: 'assets/imgs/pointOfInterest.png',
+      iconSize: [25, 25]
     });
-    leaflet.marker([54.18025, -5.92071], {icon: summit}).addTo(this.map)
+
+    //add market at the summit of routes
+    leaflet.marker([54.18025, -5.92071], { icon: summit }).addTo(this.map)
       .bindPopup('<b>The Summit of Slieve Donard!</b><div><img style="width:100%"src="assets/imgs/slieveDonardSummit.png" alt="Slieve Donard Summit"></div>');
-
-    leaflet.marker([54.20583, -5.89436], {icon: beginning}).addTo(this.map)
+    //add marker at the beginning of routes
+    leaflet.marker([54.20583, -5.89436], { icon: beginning }).addTo(this.map)
       .bindPopup('<b>Where your Hike Begins!</b>');
-
-    leaflet.marker([54.18019, -5.92085], {icon: pointOfInterest}).addTo(this.map)
+    //add marker at points of interest
+    leaflet.marker([54.18019, -5.92085], { icon: pointOfInterest }).addTo(this.map)
       .bindPopup('<b>The Stone Tower at the Summit of Slieve Donard!</b><div><img style="width:100%"src="assets/imgs/slieveDonardStonetower.jpg" alt"Slieve Donard Stone Tower"></div>');
   }
 
+  //polylines added to create the route of the trail
   addPolylines(map) {
     var latlngs = [
       [54.20583, -5.89436],
@@ -182,6 +199,7 @@ export class HikePage {
       [54.18046, -5.9235],
       [54.18025, -5.92071]
     ];
+    //adds the polylines to the map
     this.map = leaflet.polyline(latlngs, {
       color: 'red',
       opacity: 1.0,

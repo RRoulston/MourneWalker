@@ -1,33 +1,34 @@
 page-weather {
-
-.weather{
+  .weather {
     background-color: #00B0FF;
     color: #FFFFFF;
-    margin-top:30px;
+    margin-top: 30px;
   }
 
-.weatherbackground{
-  background-color: #00B0FF;
+  .weatherbackground {
+    background-color: #00B0FF;
   }
 
-  .temperature{
+  .temperature {
     font-size: 40px;
     text-align: center;
   }
 
-  .location, .icon, .description{
+  .description,
+  .icon,
+  .location {
     text-align: center;
   }
 
-  .icon img{
-    width:75px;
+  .icon img {
+    width: 75px;
   }
 
-  .location{
-    font-size:35px
+  .location {
+    font-size: 35px;
   }
 
-  .description{
-    font-size: 30px
+  .description {
+    font-size: 30px;
   }
 }

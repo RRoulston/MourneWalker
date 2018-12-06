@@ -5,22 +5,20 @@
 </ion-header>
 
 <ion-content>
+  <!-- Ionic component documentation: https://ionicframework.com/docs/components/ -->
   <ion-card>
+    <!-- The button is an image, so when it is clicked it takes you to the selected route -->
     <div class>
-    <button class="btn"(click) ="btnHike()" block>
-    <img src="assets/imgs/slievedonard.jpg" style="width : 100% ; height : 100%">
-    </button>
+      <button class="btn" (click)="btnHike()" block>
+        <img src="assets/imgs/slievedonard.jpg" style="width : 100% ; height : 100%">
+      </button>
     </div>
-      <ion-item>
-        <ion-icon name="walk" item-start large></ion-icon>
-        <div class="hikeName">Slieve Donard (Donard Car Park)</div>
-        <div class="hikeInfo">Moderate </div>
-        <div class="hikeInfo">2.9 (one way) miles </div>
-      </ion-item>
-
-
-
-
-
-    </ion-card>
- </ion-content>
+    <!-- Hike Details -->
+    <ion-item>
+      <ion-icon name="walk" item-start large></ion-icon>
+      <div class="hikeName">Slieve Donard (Donard Car Park)</div>
+      <div class="hikeInfo">Moderate </div>
+      <div class="hikeInfo">2.9 (one way) miles </div>
+    </ion-item>
+  </ion-card>
+</ion-content>

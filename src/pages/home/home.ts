@@ -11,8 +11,8 @@ export class HomePage {
   constructor(public navCtrl: NavController) {
 
   }
-
-  btnHike(){
+  //when image is clicked it takes you to the selected hike page
+  btnHike() {
     this.navCtrl.setRoot(HikePage);
   }
 }

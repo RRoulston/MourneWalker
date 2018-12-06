@@ -8,6 +8,7 @@ import { WeatherProvider } from '../../providers/weather/weather';
   templateUrl: 'weather.html',
 })
 export class WeatherPage {
+  //variables declared
   temperatureData: any;
   weatherDescription: any;
   weatherIcon: any;
@@ -19,14 +20,17 @@ export class WeatherPage {
   lastUpdated: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private weatherProvider: WeatherProvider) {
+
+  }
+
+  //initial function runs when the page is loaded
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad WeatherPage');
     this.getWeather();
   }
 
-  ionViewDidLoad() {
-  console.log('ionViewDidLoad WeatherPage');
-  }
-
-  getWeather(){
+  //get weather returns weather data which is stored in the console
+  getWeather() {
     this.weatherProvider.getWeatherData().subscribe(weatherData => {
       console.log(weatherData)
       this.temperatureData = weatherData.main.temp;
@@ -40,5 +44,4 @@ export class WeatherPage {
       this.lastUpdated = weatherData.dt;
     });
   }
-
 }

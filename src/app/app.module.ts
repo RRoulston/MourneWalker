@@ -1,3 +1,4 @@
+//Imports for the project
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -17,6 +18,7 @@ import { WeatherProvider } from '../providers/weather/weather';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 
+//pages declared
 @NgModule({
   declarations: [
     MyApp,
@@ -41,13 +43,14 @@ import { Geolocation } from '@ionic-native/geolocation';
     WeatherPage,
     HikePage
   ],
+  //providers used
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     WeatherProvider,
     Geolocation,
     BackgroundGeolocation
   ]
 })
-export class AppModule {}
+export class AppModule { }
