@@ -5,6 +5,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { TabsPageModule } from '../pages/tabs/tabs.module';
 
 import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
@@ -18,13 +19,16 @@ import { WeatherProvider } from '../providers/weather/weather';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 
+import { AngularFireModule } from 'angularfire2';
+import { FIREBASE_CONFIG } from "./app.firebase.config";
+import { AngularFireAuthModule} from "angularfire2/auth";
+
 //pages declared
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
     HomePage,
-    TabsPage,
+    AboutPage,
     WeatherPage,
     HikePage
   ],
@@ -32,7 +36,10 @@ import { Geolocation } from '@ionic-native/geolocation';
     BrowserModule,
     HttpModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(FIREBASE_CONFIG),
+    AngularFireAuthModule,
+    TabsPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-
+import { IonicPage } from 'ionic-angular';
 import { AboutPage } from '../about/about';
 import { HomePage } from '../home/home';
 import { WeatherPage } from '../weather/weather'
 
+@IonicPage()
 @Component({
   templateUrl: 'tabs.html'
 })
