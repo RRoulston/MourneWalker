@@ -12,12 +12,14 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { WeatherPage } from '../pages/weather/weather';
 import { HikePage } from '../pages/hike/hike';
+import { FallDetectionPage } from '../pages/fall-detection/fall-detection';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { WeatherProvider } from '../providers/weather/weather';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
+import { DeviceMotion } from '@ionic-native/device-motion';
 
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
@@ -30,7 +32,8 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     HomePage,
     AboutPage,
     WeatherPage,
-    HikePage
+    HikePage,
+    FallDetectionPage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     HomePage,
     TabsPage,
     WeatherPage,
-    HikePage
+    HikePage,
+    FallDetectionPage
   ],
   //providers used
   providers: [
@@ -57,7 +61,8 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     WeatherProvider,
     Geolocation,
-    BackgroundGeolocation
+    BackgroundGeolocation,
+    DeviceMotion,
   ]
 })
 export class AppModule { }
