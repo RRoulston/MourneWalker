@@ -13,6 +13,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { WeatherPage } from '../pages/weather/weather';
 import { HikePage } from '../pages/hike/hike';
 import { FallDetectionPage } from '../pages/fall-detection/fall-detection';
+import { SosPage } from '../pages/sos/sos';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,6 +21,9 @@ import { WeatherProvider } from '../providers/weather/weather';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 import { DeviceMotion } from '@ionic-native/device-motion';
+import { EmailComposer } from '@ionic-native/email-composer';
+import { CallNumber } from '@ionic-native/call-number';
+
 
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
@@ -33,7 +37,8 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     AboutPage,
     WeatherPage,
     HikePage,
-    FallDetectionPage
+    FallDetectionPage,
+    SosPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,8 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     TabsPage,
     WeatherPage,
     HikePage,
-    FallDetectionPage
+    FallDetectionPage,
+    SosPage
   ],
   //providers used
   providers: [
@@ -63,6 +69,8 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     Geolocation,
     BackgroundGeolocation,
     DeviceMotion,
+    CallNumber,
+    EmailComposer
   ]
 })
 export class AppModule { }
