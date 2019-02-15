@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
+import { SMS } from '@ionic-native/sms/ngx';
 import leaflet from 'leaflet';
 
 @IonicPage()
@@ -242,7 +243,7 @@ export class HikePage {
     );
 
     this.geofence.onTransitionReceived().subscribe (resp => {
-      this.sms.send('077443437927', 'Boundary passed');
-    }
+      this.sms.send('077443437927', 'Boundary passed')
+    });
   }
 }
