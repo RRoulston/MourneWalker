@@ -12,7 +12,7 @@
 
 <ion-content padding>
   <!-- Location where the map displays -->
-  <div class="map" id="map"></div>
+  <div class="map" id="userLocationMap"></div>
   <br/>
   <div class="text">Your Current Location:</div>
 
@@ -20,6 +20,8 @@
   <br/>
   <div align = "center" class="button">
     <button ion-button color="primary" (click) = "makeCall()">Call Us</button>
-    <button ion-button color="primary" (click) = "sendEmail()">Send Lat/Lng</button>
+  </div>
+  <div align = "center" class="button">
+    <button ion-button color="primary" (click) = "sendText()">Send Lat/Lng</button>
   </div>
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Geolocation } from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geofence } from '@ionic-native/geofence/ngx';
 import leaflet from 'leaflet';
 
 @IonicPage()
@@ -15,7 +16,8 @@ export class HikePage {
   latitude: any;
   longitude: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private geolocation: Geolocation, private geofence: Geofence) {
   }
 
   //First method which runs on the hikes page
@@ -44,6 +46,7 @@ export class HikePage {
     this.addGeoLocation(this.map);
     this.addMarkers(this.map);
     this.addPolylines(this.map);
+    this.addGeofence(this.map);
   }
 
   //using geolocation with Ionic https://ionicframework.com/docs/native/geolocation/
@@ -89,6 +92,8 @@ export class HikePage {
     //add marker at points of interest
     leaflet.marker([54.18019, -5.92085], { icon: pointOfInterest }).addTo(this.map)
       .bindPopup('<b>The Stone Tower at the Summit of Slieve Donard!</b><div><img style="width:100%"src="assets/imgs/slieveDonardStonetower.jpg" alt"Slieve Donard Stone Tower"></div>');
+
+      leaflet.circle([54.68801, -5.88149], { color: 'red', radius: 30}).addTo(this.map);
   }
 
   //polylines added to create the route of the trail
@@ -207,5 +212,37 @@ export class HikePage {
       opacity: 1.0,
       weight: 2
     }).addTo(this.map);
+  }
+
+  addGeofence(map) {
+    // initialize the plugin
+    this.geofence.initialize().then(
+      // resolved promise does not return a value
+      () => console.log('Geofence Plugin Ready'),
+      (err) => console.log(err)
+    )
+    //options describing geofence
+    let fence = {
+      id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
+      latitude: 54.68801, //center of geofence radius
+      longitude: -5.88149,
+      radius: 50, //radius to edge of geofence in meters
+      transitionType: 3, //see 'Transition Types' below
+      notification: { //notification settings
+        id: 1, //any unique ID
+        title: 'You crossed a fence', //notification title
+        text: 'You just arrived to Gliwice city center.', //notification body
+        openAppOnClick: true //open app when notification is tapped
+      }
+    }
+
+    this.geofence.addOrUpdate(fence).then(
+      () => console.log('Geofence added'),
+      (err) => console.log('Geofence failed to add')
+    );
+
+    this.geofence.onTransitionReceived().subscribe (resp => {
+      this.sms.send('077443437927', 'Boundary passed');
+    }
   }
 }

@@ -15,14 +15,15 @@ import { HikePage } from '../pages/hike/hike';
 import { FallDetectionPage } from '../pages/fall-detection/fall-detection';
 import { SosPage } from '../pages/sos/sos';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { WeatherProvider } from '../providers/weather/weather';
-import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
-import { Geolocation } from '@ionic-native/geolocation';
-import { DeviceMotion } from '@ionic-native/device-motion';
-import { EmailComposer } from '@ionic-native/email-composer';
-import { CallNumber } from '@ionic-native/call-number';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { DeviceMotion } from '@ionic-native/device-motion/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { SMS } from '@ionic-native/sms/ngx';
+import { Geofence } from '@ionic-native/geofence/ngx';
 
 
 import { AngularFireModule } from 'angularfire2';
@@ -67,10 +68,11 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     WeatherProvider,
     Geolocation,
-    BackgroundGeolocation,
     DeviceMotion,
     CallNumber,
-    EmailComposer
+    AndroidPermissions,
+    SMS,
+    Geofence
   ]
 })
 export class AppModule { }
