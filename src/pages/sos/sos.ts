@@ -19,7 +19,9 @@ export class SosPage {
   latitude: any;
   longitude: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation, private callNumber: CallNumber, private sms: SMS, private androidPermissions: AndroidPermissions) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public geolocation: Geolocation, private callNumber: CallNumber,
+    private sms: SMS, private androidPermissions: AndroidPermissions) {
   }
 
   ionViewDidLoad() {
@@ -69,11 +71,25 @@ export class SosPage {
   }
 
   sendText() {
+    var number = '07443437927';
+    var message = 'Test';
+    console.log("number=" + number + ", message= " + message);
+
+    //CONFIGURATION
+    var options = {
+      replaceLineBreaks: false, // true to replace \n by a new line, false by default
+      android: {
+        //  intent: 'INTENT'  // send SMS with the native android SMS messaging
+        intent: '' // send SMS without opening any other app
+      }
+    };
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
       result => {
         console.log('Has permission?', result.hasPermission);
-        if (result.hasPermission) {
-          this.sms.send("07443437927", "Hi")
+
+        if (result.hasPermission == false) {
+          this.sms.send(number, message, options)
             .then(() => {
               console.log("The Message is sent");
             }).catch((error) => {
@@ -85,6 +101,14 @@ export class SosPage {
     );
   }
 }
+
+/*
+  sendText() {
+
+    );
+  }
+*/
+
   /*
     sendEmail() {
       let email = {

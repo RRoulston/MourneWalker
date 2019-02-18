@@ -13,15 +13,16 @@
 <ion-content padding>
   <!-- Location where the map displays -->
   <div class="map" id="userLocationMap"></div>
-  <br/>
+  <br />
   <div class="text">Your Current Location:</div>
 
-  <div class="text">Latitude: {{ latitude }} <br/> Longitude: {{ longitude }}</div>
-  <br/>
-  <div align = "center" class="button">
-    <button ion-button color="primary" (click) = "makeCall()">Call Us</button>
+  <div class="text">Latitude: {{ latitude }} <br /> Longitude: {{ longitude }}</div>
+  <br />
+  <div align="center" class="button">
+    <button ion-button color="primary" (click)="makeCall()">Call Us</button>
   </div>
-  <div align = "center" class="button">
-    <button ion-button color="primary" (click) = "sendText()">Send Lat/Lng</button>
+  <div align="center" class="button">
+    <button ion-button color="primary" (click)="sendText()">Send Lat/Lng</button>
   </div>
+
 </ion-content>

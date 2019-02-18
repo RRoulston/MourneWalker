@@ -18,6 +18,8 @@ import { SosPage } from '../pages/sos/sos';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { WeatherProvider } from '../providers/weather/weather';
+import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
@@ -25,10 +27,12 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
 
-
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
 import { AngularFireAuthModule} from "angularfire2/auth";
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //pages declared
 @NgModule({
@@ -39,7 +43,7 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     WeatherPage,
     HikePage,
     FallDetectionPage,
-    SosPage
+    SosPage,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,9 @@ import { AngularFireAuthModule} from "angularfire2/auth";
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    TabsPageModule
+    TabsPageModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -63,6 +69,8 @@ import { AngularFireAuthModule} from "angularfire2/auth";
   ],
   //providers used
   providers: [
+    LocationTrackerProvider,
+    BackgroundGeolocation,
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },

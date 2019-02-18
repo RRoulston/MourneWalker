@@ -1,8 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 import { Geofence } from '@ionic-native/geofence/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import leaflet from 'leaflet';
 
 @IonicPage()
@@ -14,11 +15,9 @@ export class HikePage {
   @ViewChild('map') mapRef: ElementRef
   //variables
   map: any;
-  latitude: any;
-  longitude: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    private geolocation: Geolocation, private geofence: Geofence) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private geofence: Geofence, private sms: SMS,
+    private androidPermissions: AndroidPermissions, private locationTrackerProvider: LocationTrackerProvider) {
   }
 
   //First method which runs on the hikes page
@@ -44,12 +43,71 @@ export class HikePage {
     }).addTo(this.map);
 
     //calling functions
-    this.addGeoLocation(this.map);
+    this.addBackgroundGeolocation(this.map);
     this.addMarkers(this.map);
     this.addPolylines(this.map);
     this.addGeofence(this.map);
   }
 
+
+  addBackgroundGeolocation(map) {
+    this.locationTrackerProvider.startWatching(this.map);
+  }
+
+
+    /*
+    // Background Tracking
+    let config: BackgroundGeolocationConfig = {
+      desiredAccuracy: 0,
+      stationaryRadius: 20,
+      distanceFilter: 10,
+      debug: true,
+      interval: 2000
+    };
+
+    this.backgroundGeolocation.configure(config).subscribe((location: BackgroundGeolocationResponse) => {
+
+      console.log('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
+
+      // Run update inside of Angular's zone
+      this.zone.run(() => {
+        this.latitude = location.latitude;
+        this.longitude = location.longitude;
+      });
+    }, (err) => {
+      console.log(err);
+    });
+    // Turn ON the background-geolocation system.
+    this.backgroundGeolocation.start();
+    // Foreground Tracking
+    let options = {
+      frequency: 10000,
+      enableHighAccuracy: true
+    };
+
+    this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
+
+      console.log(position);
+
+      // Run update inside of Angular's zone
+      this.zone.run(() => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+
+        if (this.geomarker == true) {
+          map.removeLayer(layer); // remove
+        }
+          //displays users current location in a marker on the map
+        var layer = leaflet.marker([this.latitude, this.longitude]).addTo(map)
+            .bindPopup('<b>Your Current Location!</b>');
+         layer.addTo(map);
+          this.geomarker == true;
+      })
+    });
+  }
+  */
+
+  /*
   //using geolocation with Ionic https://ionicframework.com/docs/native/geolocation/
   //adds users current location to the map using Ionic Geolocation plugin
   addGeoLocation(map) {
@@ -65,6 +123,7 @@ export class HikePage {
       console.log('Error getting location', error);
     });
   }
+  */
 
   //add markers to the map
   addMarkers(map) {
@@ -94,7 +153,7 @@ export class HikePage {
     leaflet.marker([54.18019, -5.92085], { icon: pointOfInterest }).addTo(this.map)
       .bindPopup('<b>The Stone Tower at the Summit of Slieve Donard!</b><div><img style="width:100%"src="assets/imgs/slieveDonardStonetower.jpg" alt"Slieve Donard Stone Tower"></div>');
 
-      leaflet.circle([54.68801, -5.88149], { color: 'red', radius: 30}).addTo(this.map);
+    leaflet.circle([54.68801, -5.88149], { color: 'red', radius: 100 }).addTo(this.map);
   }
 
   //polylines added to create the route of the trail
@@ -227,7 +286,7 @@ export class HikePage {
       id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
       latitude: 54.68801, //center of geofence radius
       longitude: -5.88149,
-      radius: 50, //radius to edge of geofence in meters
+      radius: 100, //radius to edge of geofence in meters
       transitionType: 3, //see 'Transition Types' below
       notification: { //notification settings
         id: 1, //any unique ID
@@ -242,8 +301,36 @@ export class HikePage {
       (err) => console.log('Geofence failed to add')
     );
 
-    this.geofence.onTransitionReceived().subscribe (resp => {
-      this.sms.send('077443437927', 'Boundary passed')
+    this.geofence.onTransitionReceived().subscribe(resp => {
+      console.log("Test");
+      var number = '07443437927';
+      var message = 'Boundary Passed';
+      console.log("number=" + number + ", message= " + message);
+
+      //CONFIGURATION
+      var options = {
+        replaceLineBreaks: false, // true to replace \n by a new line, false by default
+        android: {
+          intent: 'INTENT'  // send SMS with the native android SMS messaging
+          //  intent: '' // send SMS without opening any other app
+        }
+      };
+      this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
+        result => {
+          console.log('Has permission?', result.hasPermission);
+
+          if (result.hasPermission == false) {
+            this.sms.send(number, message, options)
+              .then(() => {
+                console.log("The Message is sent");
+              }).catch((error) => {
+                console.log("The Message is Failed", error);
+              });
+          }
+        },
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
+      );
     });
   }
 }
