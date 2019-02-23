@@ -2,8 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 import { Geofence } from '@ionic-native/geofence/ngx';
-import { SMS } from '@ionic-native/sms/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import leaflet from 'leaflet';
 
 @IonicPage()
@@ -16,8 +15,8 @@ export class HikePage {
   //variables
   map: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private geofence: Geofence, private sms: SMS,
-    private androidPermissions: AndroidPermissions, private locationTrackerProvider: LocationTrackerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private geofence: Geofence,
+    private locationTrackerProvider: LocationTrackerProvider, private localNotifications: LocalNotifications) {
   }
 
   //First method which runs on the hikes page
@@ -53,77 +52,6 @@ export class HikePage {
   addBackgroundGeolocation(map) {
     this.locationTrackerProvider.startWatching(this.map);
   }
-
-
-    /*
-    // Background Tracking
-    let config: BackgroundGeolocationConfig = {
-      desiredAccuracy: 0,
-      stationaryRadius: 20,
-      distanceFilter: 10,
-      debug: true,
-      interval: 2000
-    };
-
-    this.backgroundGeolocation.configure(config).subscribe((location: BackgroundGeolocationResponse) => {
-
-      console.log('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
-
-      // Run update inside of Angular's zone
-      this.zone.run(() => {
-        this.latitude = location.latitude;
-        this.longitude = location.longitude;
-      });
-    }, (err) => {
-      console.log(err);
-    });
-    // Turn ON the background-geolocation system.
-    this.backgroundGeolocation.start();
-    // Foreground Tracking
-    let options = {
-      frequency: 10000,
-      enableHighAccuracy: true
-    };
-
-    this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
-
-      console.log(position);
-
-      // Run update inside of Angular's zone
-      this.zone.run(() => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-
-        if (this.geomarker == true) {
-          map.removeLayer(layer); // remove
-        }
-          //displays users current location in a marker on the map
-        var layer = leaflet.marker([this.latitude, this.longitude]).addTo(map)
-            .bindPopup('<b>Your Current Location!</b>');
-         layer.addTo(map);
-          this.geomarker == true;
-      })
-    });
-  }
-  */
-
-  /*
-  //using geolocation with Ionic https://ionicframework.com/docs/native/geolocation/
-  //adds users current location to the map using Ionic Geolocation plugin
-  addGeoLocation(map) {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-
-      //displays users current location in a marker on the map
-      leaflet.marker([this.latitude, this.longitude]).addTo(map)
-        .bindPopup('<b>Your Current Location!</b>');
-      //if theres an error return the following...
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
-  }
-  */
 
   //add markers to the map
   addMarkers(map) {
@@ -287,13 +215,7 @@ export class HikePage {
       latitude: 54.68801, //center of geofence radius
       longitude: -5.88149,
       radius: 100, //radius to edge of geofence in meters
-      transitionType: 3, //see 'Transition Types' below
-      notification: { //notification settings
-        id: 1, //any unique ID
-        title: 'You crossed a fence', //notification title
-        text: 'You just arrived to Gliwice city center.', //notification body
-        openAppOnClick: true //open app when notification is tapped
-      }
+      transitionType: 2 //see 'Transition Types' below
     }
 
     this.geofence.addOrUpdate(fence).then(
@@ -302,35 +224,13 @@ export class HikePage {
     );
 
     this.geofence.onTransitionReceived().subscribe(resp => {
-      console.log("Test");
-      var number = '07443437927';
-      var message = 'Boundary Passed';
-      console.log("number=" + number + ", message= " + message);
-
-      //CONFIGURATION
-      var options = {
-        replaceLineBreaks: false, // true to replace \n by a new line, false by default
-        android: {
-          intent: 'INTENT'  // send SMS with the native android SMS messaging
-          //  intent: '' // send SMS without opening any other app
-        }
-      };
-      this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
-        result => {
-          console.log('Has permission?', result.hasPermission);
-
-          if (result.hasPermission == false) {
-            this.sms.send(number, message, options)
-              .then(() => {
-                console.log("The Message is sent");
-              }).catch((error) => {
-                console.log("The Message is Failed", error);
-              });
-          }
-        },
-        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
-      );
+      console.log(resp);
+      this.localNotifications.schedule({
+        id: 1,
+        title: 'Boundary Crossed',
+        text: 'You Have Left The Recommended Path',
+        vibrate: true
+      });
     });
   }
 }

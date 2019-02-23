@@ -26,6 +26,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
@@ -80,7 +81,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CallNumber,
     AndroidPermissions,
     SMS,
-    Geofence
+    Geofence,
+    LocalNotifications
   ]
 })
 export class AppModule { }
