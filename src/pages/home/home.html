@@ -1,24 +1,24 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title *ngIf="!isSearchbarOpen">Hikes</ion-title>
+    <ion-searchbar *ngIf="isSearchbarOpen" showCancelButton="true" (keyup)="onSearch($event)" (ionCancel)="isSearchbarOpen=false"></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button ion icon icon-only *ngIf="!isSearchbarOpen" (click)="isSearchbarOpen=true">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
-  <!-- Ionic component documentation: https://ionicframework.com/docs/components/ -->
-  <ion-card>
-    <!-- The button is an image, so when it is clicked it takes you to the selected route -->
-    <div class>
-      <button class="btn" (click)="btnHike()" block>
-        <img src="assets/imgs/slievedonard.jpg" style="width : 100% ; height : 100%">
-      </button>
-    </div>
-    <!-- Hike Details -->
+  <ion-card  *ngFor="let item of hikes">
+    <button class="btn" (click)="btnHike()" block>
+      <img [src] = "item.imgsrc" style="width : 100% ; height : 100%">
+    </button>
     <ion-item>
       <ion-icon name="walk" item-start large></ion-icon>
-      <div class="hikeName">Slieve Donard (Donard Car Park)</div>
-      <div class="hikeInfo">Moderate </div>
-      <div class="hikeInfo">2.9 (one way) miles </div>
+      <div class="hikeName">{{item.hikeName}}</div>
+      <div class="hikeInfo">{{item.difficulty}} </div>
+      <div class="hikeInfo">{{item.distance}}</div>
     </ion-item>
   </ion-card>
 </ion-content>

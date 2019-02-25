@@ -14,7 +14,7 @@ export class HikePage {
   @ViewChild('map') mapRef: ElementRef
   //variables
   map: any;
-
+  marker: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private geofence: Geofence,
     private locationTrackerProvider: LocationTrackerProvider, private localNotifications: LocalNotifications) {
   }
@@ -42,16 +42,17 @@ export class HikePage {
     }).addTo(this.map);
 
     //calling functions
-    this.addBackgroundGeolocation(this.map);
+//    this.addBackgroundGeolocation(this.map);
     this.addMarkers(this.map);
+    //  this.addPolygon(this.map);
     this.addPolylines(this.map);
     this.addGeofence(this.map);
   }
 
 
-  addBackgroundGeolocation(map) {
-    this.locationTrackerProvider.startWatching(this.map);
-  }
+//  addBackgroundGeolocation(map) {
+//    this.locationTrackerProvider.startWatching(this.map);
+//  }
 
   //add markers to the map
   addMarkers(map) {
@@ -81,7 +82,7 @@ export class HikePage {
     leaflet.marker([54.18019, -5.92085], { icon: pointOfInterest }).addTo(this.map)
       .bindPopup('<b>The Stone Tower at the Summit of Slieve Donard!</b><div><img style="width:100%"src="assets/imgs/slieveDonardStonetower.jpg" alt"Slieve Donard Stone Tower"></div>');
 
-    leaflet.circle([54.68801, -5.88149], { color: 'red', radius: 100 }).addTo(this.map);
+    leaflet.circle([54.1949, -5.9167], { color: 'red', radius: 2000 }).addTo(this.map);
   }
 
   //polylines added to create the route of the trail
@@ -195,28 +196,74 @@ export class HikePage {
       [54.18025, -5.92071]
     ];
     //adds the polylines to the map
-    this.map = leaflet.polyline(latlngs, {
+    var path = leaflet.polyline(latlngs, {
       color: 'red',
       opacity: 1.0,
       weight: 2
     }).addTo(this.map);
+    map.fitBounds(path.getBounds());
   }
 
+  /*
+  addPolygon(map) {
+    var latlngs = [
+      [54.6885, -5.88156],
+      [54.68837, -5.88135],
+      [54.6885, -5.88112],
+      [54.68863, -5.88131]
+    ];
+    leaflet.polygon(latlngs, {
+      color: 'blue',
+      opacity: 1.0,
+      weight: 2
+    }).addTo(this.map);
+  }
+  */
+
   addGeofence(map) {
+    var marker;
+    this.locationTrackerProvider.startWatching(this.map);
     // initialize the plugin
     this.geofence.initialize().then(
       // resolved promise does not return a value
       () => console.log('Geofence Plugin Ready'),
       (err) => console.log(err)
     )
+
+    var latlngs = [
+      [54.6885, -5.88156],
+      [54.6882, -5.881],
+      [54.68831, -5.88086],
+      [54.6885, -5.88112]
+    ];
+    var polygon = leaflet.polygon(latlngs, {
+      color: 'blue',
+      opacity: 1.0,
+      weight: 2
+    }).addTo(this.map);
+
+    latlngs = [
+      [54.58721, -5.86122],
+      [54.58682, -5.86084],
+      [54.58714, -5.86007],
+      [54.58747, -5.8606]
+    ];
+    polygon = leaflet.polygon(latlngs, {
+      color: 'blue',
+      opacity: 1.0,
+      weight: 2
+    }).addTo(this.map);
+
     //options describing geofence
     let fence = {
       id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
-      latitude: 54.68801, //center of geofence radius
-      longitude: -5.88149,
+      latitude: 54.58713, //center of geofence radius
+      longitude: -5.86068,
       radius: 100, //radius to edge of geofence in meters
-      transitionType: 2 //see 'Transition Types' below
+      transitionType: 3 //see 'Transition Types' below
     }
+    leaflet.circle([54.68801, -5.88149], { color: 'red', radius: 100 }).addTo(this.map);
+    leaflet.circle([54.58713, -5.86068], { color: 'red', radius: 100 }).addTo(this.map);
 
     this.geofence.addOrUpdate(fence).then(
       () => console.log('Geofence added'),
@@ -224,13 +271,17 @@ export class HikePage {
     );
 
     this.geofence.onTransitionReceived().subscribe(resp => {
-      console.log(resp);
-      this.localNotifications.schedule({
-        id: 1,
-        title: 'Boundary Crossed',
-        text: 'You Have Left The Recommended Path',
-        vibrate: true
-      });
+      if (polygon.getBounds().contains(marker.getLatLng())) {
+        this.localNotifications.schedule({
+          id: 1,
+          title: 'Boundary Crossed',
+          text: 'You Have Left The Recommended Path',
+          vibrate: true
+        });
+        console.log('Test');
+      } else {
+        console.log('User not in Polygon');
+      }
     });
   }
 }

@@ -11,7 +11,6 @@ export class LocationTrackerProvider {
   latitude: any;
   longitude: any;
   watch: any;
-  geomarker: boolean = false;
 
   constructor(public http: HttpClient, public zone: NgZone, private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation) {
     console.log('Hello LocationTrackerProvider Provider');
@@ -25,7 +24,7 @@ export class LocationTrackerProvider {
       stationaryRadius: 20,
       distanceFilter: 10,
       debug: true,
-      interval: 3000
+      interval: 1000
     };
 
     this.backgroundGeolocation.configure(config).subscribe((location: BackgroundGeolocationResponse) => {
