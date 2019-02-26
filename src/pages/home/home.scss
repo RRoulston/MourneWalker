@@ -16,4 +16,30 @@ page-home {
     font-weight: bold;
     color: #FFFFFF;
   }
+
+  .checkBox {
+    top: 0;
+    right: 0;
+  }
+
+  #progressOuter {
+    width: 100%;
+    margin: 10px 2%;
+    padding: 5px;
+    text-align: center;
+    background-color: #f4f4f4;
+    border: 1px solid #dcdcdc;
+    color: #fff;
+    border-radius: 20px;
+  }
+
+  #progressInner {
+    min-width: 10%;
+    width: 10%;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 3px;
+    border-radius: 20px;
+    background-color: map-get($colors, primary);
+  }
 }

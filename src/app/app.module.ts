@@ -14,6 +14,7 @@ import { WeatherPage } from '../pages/weather/weather';
 import { HikePage } from '../pages/hike/hike';
 import { FallDetectionPage } from '../pages/fall-detection/fall-detection';
 import { SosPage } from '../pages/sos/sos';
+import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -45,6 +46,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HikePage,
     FallDetectionPage,
     SosPage,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularFireAuthModule,
     TabsPageModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

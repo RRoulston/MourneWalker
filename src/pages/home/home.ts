@@ -12,7 +12,7 @@ export class HomePage {
 
   isSearchbarOpen = false;
   hikes: any;
-  searchControl: FormControl;
+  width = 0;
 
   constructor(private fireAuth: AngularFireAuth, private toast: ToastController,
     public navCtrl: NavController, public navParams: NavParams) {
@@ -20,6 +20,41 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.initializeItems();
+  }
+
+/*
+  move() {
+    var elem = document.getElementById("progressInner");
+    var width = 0;
+    var id = setInterval(frame, 50);
+    function frame() {
+      if (width >= 100) {
+        clearInterval(id);
+      } else {
+        width++;
+        elem.style.width = width + '%';
+        elem.innerHTML = width * 1 + '%';
+      }
+    }
+  }
+  */
+
+  completeHike() {
+    var elem = document.getElementById("progressInner");
+      if ((document.getElementById("isTicked") as HTMLTextAreaElement).checked = false) {
+        this.width = this.width - 50;
+        elem.style.width = this.width + '%';
+        elem.innerHTML = this.width * 1 + '%';
+        console.log("Uppa Hoods");
+        (document.getElementById("isTicked") as HTMLTextAreaElement).checked = true;
+      } else {
+        this.width = this.width + 50;
+        elem.style.width = this.width + '%';
+        elem.innerHTML = this.width * 1 + '%';
+        console.log("test");
+        (document.getElementById("isTicked") as HTMLTextAreaElement).checked = false;
+
+      }
   }
 
   initializeItems() {
