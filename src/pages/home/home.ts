@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { HikePage } from '../hike/hike';
+import { SlievedonardPage } from '../slievedonard/slievedonard';
 import { SlievecommedaghPage } from '../slievecommedagh/slievecommedagh';
+import { HaresgapPage } from '../haresgap/haresgap';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 //import { FirebaseServicesProvider } from '../../providers/firebase-services/firebase-services';
@@ -18,11 +19,11 @@ export class HomePage {
   hikes: any;
   width = 0;
 
-//  allHikes: AngularFireList<any[]>;
+  //  allHikes: AngularFireList<any[]>;
 
   constructor(private fireAuth: AngularFireAuth, private toast: ToastController,
     public navCtrl: NavController, public navParams: NavParams) {
-//      this.allHikes = firebaseService.getHikeDetails();
+    //      this.allHikes = firebaseService.getHikeDetails();
   }
 
   ionViewDidLoad() {
@@ -51,12 +52,12 @@ export class HomePage {
     console.log("index:", index);
     var elem = document.getElementById("progressInner");
     if (this.hikes[index].completed == 'danger') {
-      this.width = this.width + 50;
+      this.width = this.width + 25;
       elem.style.width = this.width + '%';
       elem.innerHTML = this.width * 1 + '%';
       this.hikes[index].completed = 'primary';
     } else if (this.hikes[index].completed == 'primary') {
-      this.width = this.width - 50;
+      this.width = this.width - 25;
       elem.style.width = this.width + '%';
       elem.innerHTML = this.width * 1 + '%';
       this.hikes[index].completed = 'danger';
@@ -68,7 +69,7 @@ export class HomePage {
       imgsrc: 'assets/imgs/slievedonard.jpg',
       imgID: '1',
       hikeName: 'Slieve Donard',
-      difficulty: 'Hard',
+      difficulty: 'Medium',
       distance: '5.8 miles',
       completed: 'danger'
     },
@@ -78,6 +79,22 @@ export class HomePage {
       hikeName: 'Slieve Commedagh',
       difficulty: 'Medium',
       distance: '5.6 miles',
+      completed: 'danger'
+    },
+    {
+      imgsrc: 'assets/imgs/haresgap.jpg',
+      imgID: '3',
+      hikeName: 'Hares Gap',
+      difficulty: 'Easy',
+      distance: '4.1 miles',
+      completed: 'danger'
+    },
+    {
+      imgsrc: 'assets/imgs/slievebinnian.jpg',
+      imgID: '4',
+      hikeName: 'Slieve Binnian',
+      difficulty: 'Hard',
+      distance: '7 miles',
       completed: 'danger'
     }];
   }
@@ -98,9 +115,11 @@ export class HomePage {
   // when image is clicked it takes you to the selected hike page
   btnHike(index) {
     if (this.hikes[index].imgID == '1') {
-      this.navCtrl.push(HikePage);
+      this.navCtrl.push(SlievedonardPage);
     } else if (this.hikes[index].imgID == '2') {
       this.navCtrl.push(SlievecommedaghPage);
+    } else if (this.hikes[index].imgID == '3') {
+      this.navCtrl.push(HaresgapPage);
     }
   }
 }
