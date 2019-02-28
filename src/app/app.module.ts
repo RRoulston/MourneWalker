@@ -12,6 +12,7 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { WeatherPage } from '../pages/weather/weather';
 import { HikePage } from '../pages/hike/hike';
+import { SlievecommedaghPage } from '../pages/slievecommedagh/slievecommedagh';
 import { FallDetectionPage } from '../pages/fall-detection/fall-detection';
 import { SosPage } from '../pages/sos/sos';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
@@ -19,6 +20,7 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { WeatherProvider } from '../providers/weather/weather';
+import { FirebaseServicesProvider } from '../providers/firebase-services/firebase-services';
 import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -32,6 +34,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
 import { AngularFireAuthModule} from "angularfire2/auth";
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -44,6 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AboutPage,
     WeatherPage,
     HikePage,
+    SlievecommedaghPage,
     FallDetectionPage,
     SosPage,
     ProgressBarComponent
@@ -55,6 +59,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
+    AngularFireDatabaseModule,
     TabsPageModule,
     ReactiveFormsModule,
     BrowserAnimationsModule
@@ -67,6 +72,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TabsPage,
     WeatherPage,
     HikePage,
+    SlievecommedaghPage,
     FallDetectionPage,
     SosPage
   ],
@@ -84,7 +90,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AndroidPermissions,
     SMS,
     Geofence,
-    LocalNotifications
+    LocalNotifications,
+    FirebaseServicesProvider
   ]
 })
 export class AppModule { }

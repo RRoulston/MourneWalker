@@ -14,13 +14,15 @@
   <div id="progressOuter">
     <div id="progressInner">0%</div>
   </div>
-  <ion-card *ngFor="let item of hikes">
-    <button class="btn" (click)="btnHike()" block>
+  <ion-card *ngFor="let item of hikes; let i=index;">
+    <button class="btn" (click)="btnHike(i)" block>
       <img [src]="item.imgsrc" style="width : 100% ; height : 100%" >
-      <ion-checkbox id="isTicked" class="checkBox" (click)="completeHike()"></ion-checkbox>
+    <!--  <ion-checkbox id="isTicked" class="checkBox" (click)="completeHike()"></ion-checkbox> -->
     </button>
     <ion-item>
       <ion-icon name="walk" item-start large></ion-icon>
+  <!--<img src="{{myImage}}" style="height: 20px; width: 20px" align="right" vertical-align="middle" (click)="completeHike()"/> -->
+      <button (click)="completeHike(i)" class="completed" item-right ion-button [color]="item.completed">Completed</button>
       <div class="hikeName">{{item.hikeName}}</div>
       <div class="hikeInfo">{{item.difficulty}} </div>
       <div class="hikeInfo">{{item.distance}}</div>

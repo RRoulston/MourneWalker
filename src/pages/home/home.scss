@@ -9,22 +9,23 @@ page-home {
     font-size: 17px;
     font-weight: bold;
     color: #FFFFFF;
+    padding-left: 7px;
   }
 
   .hikeInfo {
     font-size: 14px;
     font-weight: bold;
     color: #FFFFFF;
+    padding-left: 7px;
   }
 
-  .checkBox {
-    top: 0;
-    right: 0;
+  .completed {
+    text-align: right;
   }
 
   #progressOuter {
-    width: 100%;
-    margin: 10px 2%;
+    width: 96%;
+    margin: 10px;
     padding: 5px;
     text-align: center;
     background-color: #f4f4f4;
