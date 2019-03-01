@@ -14,6 +14,7 @@ import { WeatherPage } from '../pages/weather/weather';
 import { SlievedonardPage } from '../pages/slievedonard/slievedonard';
 import { SlievecommedaghPage } from '../pages/slievecommedagh/slievecommedagh';
 import { HaresgapPage } from '../pages/haresgap/haresgap'
+import { SlievebinnianPage } from '../pages/slievebinnian/slievebinnian'
 import { FallDetectionPage } from '../pages/fall-detection/fall-detection';
 import { SosPage } from '../pages/sos/sos';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
@@ -50,6 +51,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SlievedonardPage,
     SlievecommedaghPage,
     HaresgapPage,
+    SlievebinnianPage,
     FallDetectionPage,
     SosPage,
     ProgressBarComponent
@@ -76,6 +78,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SlievedonardPage,
     SlievecommedaghPage,
     HaresgapPage,
+    SlievebinnianPage,
     FallDetectionPage,
     SosPage
   ],

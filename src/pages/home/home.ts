@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { SlievedonardPage } from '../slievedonard/slievedonard';
 import { SlievecommedaghPage } from '../slievecommedagh/slievecommedagh';
 import { HaresgapPage } from '../haresgap/haresgap';
+import { SlievebinnianPage } from '../slievebinnian/slievebinnian'
 import { AngularFireAuth } from 'angularfire2/auth';
 
 //import { FirebaseServicesProvider } from '../../providers/firebase-services/firebase-services';
@@ -120,6 +121,8 @@ export class HomePage {
       this.navCtrl.push(SlievecommedaghPage);
     } else if (this.hikes[index].imgID == '3') {
       this.navCtrl.push(HaresgapPage);
+    } else if (this.hikes[index].imgID == '4') {
+      this.navCtrl.push(SlievebinnianPage);
     }
   }
 }

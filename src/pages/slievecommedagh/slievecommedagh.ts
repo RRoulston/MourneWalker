@@ -76,7 +76,7 @@ export class SlievecommedaghPage {
       .bindPopup('<b>This is where your Hike Begins!</b>');
     //add marker at points of interest
     leaflet.marker([54.18724, -5.94174], { icon: pointOfInterest }).addTo(this.map)
-      .bindPopup('<b>The Stone Tower at the Summit of Slieve Commedagh!</b><div><img style="width:200px"src="assets/imgs/slieveCommedaghStonetower.jpg" alt"Slieve Commedagh Stone Tower"></div>', {
+      .bindPopup('<b>The Stone Tower at the Summit of Slieve Commedagh!</b><div><img style="width:200px"src="assets/imgs/slieveCommedaghStoneTower.jpg" alt"Slieve Commedagh Stone Tower"></div>', {
         maxWidth : 200
   });
   }
