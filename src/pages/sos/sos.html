@@ -18,11 +18,8 @@
 
   <div class="text">Latitude: {{ latitude }} <br /> Longitude: {{ longitude }}</div>
   <br />
-  <div align="center" class="button">
-    <button ion-button color="primary" (click)="makeCall()">Call Us</button>
-  </div>
-  <div align="center" class="button">
-    <button ion-button color="primary" (click)="sendText()">Send Lat/Lng</button>
-  </div>
-
+  <ion-item no-lines class="button-background">
+    <button class="button" ion-button color="primary" (click)="makeCall()">Call Us</button>
+    <button class="button" ion-button color="primary" (click)="sendText(latitude, longitude)">Send Lat/Lng</button>
+  </ion-item>
 </ion-content>

@@ -7,22 +7,24 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>FallDetection</ion-title>
+    <ion-title>Fall Detection</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <button ion-button color="primary" (click) = "startWatching()">Start Watching</button>
-  <button ion-button color="danger" (click)="stopWatching()">Stop Watching</button>
 
-  <ion-card *ngIf="data">
-    <ion-card-content>
-      <h2>X: {{data.x | number:'1.4-4'}}</h2>
-      <h2>Y: {{data.y | number:'1.4-4'}}</h2>
-      <h2>Z: {{data.z | number:'1.4-4'}}</h2>
+  <ion-item no-lines class = "button-background">
+  <button class = "button" ion-button color="primary" (click) = "startWatching(latitude, longitude)">Start Watching</button>
+  <button class = "button" ion-button color="danger" (click)="stopWatching()">Stop Watching</button>
+  </ion-item>
+  <ion-card *ngIf="isMotion">
+    <ion-card-content class="motion">
+      <h2>X: {{motionX | number:'1.4-7'}}</h2>
+      <h2>Y: {{motionY | number:'1.4-7'}}</h2>
+      <h2>Z: {{motionZ | number:'1.4-7'}}</h2>
+      <h2>Total: {{motionTotal | number:'1.4-7'}}</h2>
     </ion-card-content>
   </ion-card>
-
 </ion-content>

@@ -4,8 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import leaflet from 'leaflet'
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-import { SMS } from '@ionic-native/sms/ngx';
-
+declare var sms: any;
 @IonicPage()
 @Component({
   selector: 'page-sos',
@@ -20,13 +19,12 @@ export class SosPage {
   longitude: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public geolocation: Geolocation, private callNumber: CallNumber,
-    private sms: SMS, private androidPermissions: AndroidPermissions) {
+    private geolocation: Geolocation, private callNumber: CallNumber,
+    private androidPermissions: AndroidPermissions) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SosPage');
-    console.log(this.mapRef);
     this.showMap();
   }
 
@@ -70,54 +68,20 @@ export class SosPage {
       .catch(err => console.log('Error launching dialer', err));
   }
 
-  sendText() {
-    var number = '07443437927';
-    var message = 'Test';
-    console.log("number=" + number + ", message= " + message);
-
-    //CONFIGURATION
-    var options = {
-      replaceLineBreaks: false, // true to replace \n by a new line, false by default
-      android: {
-        //  intent: 'INTENT'  // send SMS with the native android SMS messaging
-        intent: '' // send SMS without opening any other app
-      }
+  sendText(latitude, longitude) {
+    var messageInfo = {
+      phoneNumber: "07872325855",
+      textMessage: 'Users has requested assitance at location: Latitude ' + this.latitude + ' Longitude: ' + this.longitude
     };
-    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
-      result => {
-        console.log('Has permission?', result.hasPermission);
-
-        if (result.hasPermission == false) {
-          this.sms.send(number, message, options)
-            .then(() => {
-              console.log("The Message is sent");
-            }).catch((error) => {
-              console.log("The Message is Failed", error);
-            });
-        }
-      },
-      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
-    );
+    console.log(messageInfo);
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(() => {
+      sms.sendMessage(messageInfo, function(message) {
+        alert(message)
+      }, function(error) {
+        alert(error);
+      });
+    }).catch((err) => {
+      alert(JSON.stringify(err, Object.getOwnPropertyNames(err)));
+    });
   }
 }
-
-/*
-  sendText() {
-
-    );
-  }
-*/
-
-  /*
-    sendEmail() {
-      let email = {
-        to: 'ralphroulston@live.co.uk',
-        subject: 'SOS Page',
-        body:'Test',
-        isHtml: true
-      };
-
-      this.emailComposer.open(email);
-    }
-    */
