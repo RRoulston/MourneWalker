@@ -3,6 +3,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation/ngx';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
 import leaflet from 'leaflet';
 
 @Injectable()
@@ -24,7 +25,7 @@ export class LocationTrackerProvider {
       stationaryRadius: 20,
       distanceFilter: 10,
       debug: true,
-      interval: 1000
+      interval: 10000
     };
 
     this.backgroundGeolocation.configure(config).subscribe((location: BackgroundGeolocationResponse) => {

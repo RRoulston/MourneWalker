@@ -4,6 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import leaflet from 'leaflet'
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 declare var sms: any;
 @IonicPage()
 @Component({
@@ -20,7 +21,7 @@ export class SosPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private geolocation: Geolocation, private callNumber: CallNumber,
-    private androidPermissions: AndroidPermissions) {
+    private androidPermissions: AndroidPermissions, private locationTrackerProvider: LocationTrackerProvider) {
   }
 
   ionViewDidLoad() {
@@ -49,9 +50,15 @@ export class SosPage {
   //using geolocation with Ionic https://ionicframework.com/docs/native/geolocation/
   //adds users current location to the map using Ionic Geolocation plugin
   addGeoLocation(map) {
-    this.geolocation.getCurrentPosition().then((resp) => {
+    this.locationTrackerProvider.startWatching(this.map);
+    this.geolocation.watchPosition().subscribe((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
+    });
+
+    /*
+    this.geolocation.getCurrentPosition().then((resp) => {
+
 
       //displays users current location in a marker on the map
       leaflet.marker([this.latitude, this.longitude]).addTo(map)
@@ -60,6 +67,7 @@ export class SosPage {
     }).catch((error) => {
       console.log('Error getting location', error);
     });
+    */
   }
 
   makeCall() {
@@ -70,7 +78,7 @@ export class SosPage {
 
   sendText(latitude, longitude) {
     var messageInfo = {
-      phoneNumber: "07872325855",
+      phoneNumber: "07443437927",
       textMessage: 'Users has requested assitance at location: Latitude ' + this.latitude + ' Longitude: ' + this.longitude
     };
     console.log(messageInfo);

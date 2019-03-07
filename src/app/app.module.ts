@@ -40,6 +40,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AlarmProvider } from '../providers/alarm/alarm';
 
 //pages declared
 @NgModule({
@@ -97,7 +98,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     Geofence,
     LocalNotifications,
     FirebaseServicesProvider,
-    NativeAudio
+    NativeAudio,
+    AlarmProvider
   ]
 })
 export class AppModule { }
