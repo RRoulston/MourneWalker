@@ -1,0 +1,29 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-100>
+        <ion-list>
+          <ion-item>
+            <strong>Username: {{ (profileData | async)?.username }}</strong>
+          </ion-item>
+          <ion-item>
+            <strong>First Name: {{ (profileData | async)?.firstName }}</strong>
+          </ion-item>
+          <ion-item>
+            <strong>Last Name: {{ (profileData | async)?.lastName }}</strong>
+          </ion-item>
+          <ion-item>
+            <strong>Date of Birth: {{ (profileData | async)?.dateOfBirth }}</strong>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -9,6 +9,10 @@ import { TabsPageModule } from '../pages/tabs/tabs.module';
 
 import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
+//import { LoginPage } from '../pages/login/login';
+//import { RegisterPage } from '../pages/register/register';
+//import { CreateProfilePage } from '../pages/create-profile/create-profile';
+import { ProfilePage } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { WeatherPage } from '../pages/weather/weather';
 import { SlievedonardPage } from '../pages/slievedonard/slievedonard';
@@ -42,11 +46,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlarmProvider } from '../providers/alarm/alarm';
 
+import { ProfilePageModule } from '../pages/profile/profile.module';
+
 //pages declared
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
+  //  LoginPage,
+  //  RegisterPage,
+  //  CreateProfilePage,
+  //  ProfilePage,
     AboutPage,
     WeatherPage,
     SlievedonardPage,
@@ -67,13 +77,18 @@ import { AlarmProvider } from '../providers/alarm/alarm';
     AngularFireDatabaseModule,
     TabsPageModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ProfilePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     AboutPage,
     HomePage,
+  //  LoginPage,
+  //  RegisterPage,
+  //  CreateProfilePage,
+    ProfilePage,
     TabsPage,
     WeatherPage,
     SlievedonardPage,

@@ -5,6 +5,9 @@ import { SlievecommedaghPage } from '../slievecommedagh/slievecommedagh';
 import { HaresgapPage } from '../haresgap/haresgap';
 import { SlievebinnianPage } from '../slievebinnian/slievebinnian'
 import { AngularFireAuth } from 'angularfire2/auth';
+//import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+//import { Profile } from '../../models/profile';
+
 
 //import { FirebaseServicesProvider } from '../../providers/firebase-services/firebase-services';
 //import { AngularFireList } from 'angularfire2/database';
@@ -20,32 +23,13 @@ export class HomePage {
   hikes: any;
   width = 0;
 
-  //  allHikes: AngularFireList<any[]>;
-
+//  profileData: FirebaseObjectObservable<Profile>
   constructor(private fireAuth: AngularFireAuth, private toast: ToastController,
     public navCtrl: NavController, public navParams: NavParams) {
-    //      this.allHikes = firebaseService.getHikeDetails();
   }
 
   ionViewDidLoad() {
     this.initializeItems();
-  }
-
-  ionViewWillLoad() {
-    this.fireAuth.authState.subscribe(data => {
-      if (data && data.email && data.uid) {
-        this.toast.create({
-          message: `Welcome to Mourne Walker, ${data.email}`,
-          duration: 1000
-        }).present();
-      }
-      else {
-        this.toast.create({
-          message: `Could not find authentication details.`,
-          duration: 1000
-        }).present();
-      }
-    })
   }
 
   //  var isTicked = document.getElementById("isTicked").checked;

@@ -31,7 +31,7 @@ export class WeatherPage {
 
   //get weather returns weather data which is stored in the console
   getWeather() {
-    this.weatherProvider.getWeatherData().subscribe(weatherData => {
+    this.weatherProvider.getWeatherData().subscribe((weatherData: any) => {
       console.log(weatherData)
       this.temperatureData = weatherData.main.temp;
       this.weatherDescription = weatherData.weather[0].description;
