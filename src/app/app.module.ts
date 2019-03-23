@@ -47,16 +47,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlarmProvider } from '../providers/alarm/alarm';
 
 import { ProfilePageModule } from '../pages/profile/profile.module';
+import { UsernameValidator } from '../validators/username';
+import { PasswordValidator } from '../validators/password';
+
 
 //pages declared
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-  //  LoginPage,
-  //  RegisterPage,
-  //  CreateProfilePage,
-  //  ProfilePage,
     AboutPage,
     WeatherPage,
     SlievedonardPage,
@@ -85,9 +84,6 @@ import { ProfilePageModule } from '../pages/profile/profile.module';
     MyApp,
     AboutPage,
     HomePage,
-  //  LoginPage,
-  //  RegisterPage,
-  //  CreateProfilePage,
     ProfilePage,
     TabsPage,
     WeatherPage,
@@ -114,7 +110,9 @@ import { ProfilePageModule } from '../pages/profile/profile.module';
     LocalNotifications,
     FirebaseServicesProvider,
     NativeAudio,
-    AlarmProvider
+    AlarmProvider,
+    UsernameValidator,
+    PasswordValidator
   ]
 })
 export class AppModule { }

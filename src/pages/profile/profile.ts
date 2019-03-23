@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Profile } from '../../models/profile';
-
+import { AngularFireDatabase } from 'angularfire2/database';
+//import { Profile } from '../../models/profile';
+import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
 @Component({
@@ -12,32 +12,24 @@ import { Profile } from '../../models/profile';
 })
 export class ProfilePage {
 
-  profileData: AngularFireList<Profile>;
+  profileData: Observable<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private fireAuth: AngularFireAuth, private afDatabase: AngularFireDatabase,
-    private toast: ToastController ) {
+    private fireAuth: AngularFireAuth, private afDatabase: AngularFireDatabase ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
     this.fireAuth.authState.subscribe(data => {
       if (data && data.email && data.uid) {
-        this.toast.create({
-          message: `Welcome to Mourne Walker, ${data.email}`,
-          duration: 1000
-        }).present();
-
         this.profileData = this.afDatabase.object(`profile/${data.uid}`).valueChanges();
-      }
-      else {
-        this.toast.create({
-          message: `Could not find authentication details.`,
-          duration: 1000
-        }).present();
       }
     })
   }
 
-
+  signOut() {
+    this.fireAuth.auth.signOut().then(res => {
+      this.navCtrl.setRoot("LoginPage");
+    });
+  }
 }

@@ -88,10 +88,7 @@ export class SlievedonardPage {
 
   //polylines added to create the route of the trail
   addPolylines(map) {
-    this.firebaseServicesProvider.getHikeDetails(map);
-    /*
     var latlngs = [
-
       [54.20583, -5.89436],
       [54.20537, -5.895],
       [54.20496, -5.89615],
@@ -199,8 +196,6 @@ export class SlievedonardPage {
       [54.18046, -5.9235],
       [54.18025, -5.92071]
     ];
-
-
     //adds the polylines to the map
     var path = leaflet.polyline(latlngs, {
       color: 'red',
@@ -208,8 +203,6 @@ export class SlievedonardPage {
       weight: 2
     }).addTo(this.map);
     map.fitBounds(path.getBounds());
-    */
-
   }
 
   /*

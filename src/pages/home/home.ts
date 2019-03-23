@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SlievedonardPage } from '../slievedonard/slievedonard';
 import { SlievecommedaghPage } from '../slievecommedagh/slievecommedagh';
 import { HaresgapPage } from '../haresgap/haresgap';
 import { SlievebinnianPage } from '../slievebinnian/slievebinnian'
-import { AngularFireAuth } from 'angularfire2/auth';
+//import { AngularFireAuth } from 'angularfire2/auth';
 //import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 //import { Profile } from '../../models/profile';
 
@@ -24,8 +24,7 @@ export class HomePage {
   width = 0;
 
 //  profileData: FirebaseObjectObservable<Profile>
-  constructor(private fireAuth: AngularFireAuth, private toast: ToastController,
-    public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
