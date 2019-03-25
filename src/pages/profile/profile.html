@@ -11,16 +11,22 @@
       <ion-col width-100>
         <ion-list>
           <ion-item>
-            <strong>Username: {{ (profileData | async)?.username }}</strong>
-          </ion-item>
-          <ion-item>
             <strong>First Name: {{ (profileData | async)?.firstName }}</strong>
           </ion-item>
           <ion-item>
             <strong>Last Name: {{ (profileData | async)?.lastName }}</strong>
           </ion-item>
-          <ion-item>
+          <ion-item display-format="DD/MM/YYYY">
             <strong>Date of Birth: {{ (profileData | async)?.dateOfBirth }}</strong>
+          </ion-item>
+          <ion-item>
+            <strong>Phone Number: {{ (profileData | async)?.mobile }}</strong>
+          </ion-item>
+          <ion-item>
+            <strong>Current Latitude: {{ (profileData | async)?.latitude}}</strong>
+          </ion-item>
+          <ion-item>
+            <strong>Current Longitude: {{ (profileData | async)?.longitude}}</strong>
           </ion-item>
         </ion-list>
       </ion-col>

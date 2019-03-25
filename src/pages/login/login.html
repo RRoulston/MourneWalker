@@ -26,4 +26,5 @@
 <button ion-button (click)="login(user)">Login</button>
 <button ion-button (click)="register()">Register</button>
 <button ion-button (click)="skip()">Skip</button>
+<p *ngIf="loginAttempt" style="color:#FF0000;">The email address or password you have entered is incorrect. Please try again</p>
 </ion-content>

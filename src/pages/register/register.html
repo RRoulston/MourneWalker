@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content padding>
   <form [formGroup]="registerForm">
-    <ion-item class=background>
+    <ion-item class= "background">
       <ion-label floating>Email Address</ion-label>
       <ion-input formControlName="email" type="text" [(ngModel)]="user.email"></ion-input>
     </ion-item>
@@ -16,7 +16,7 @@
         </div>
       </ng-container>
     </div>
-    <ion-item class=background>
+    <ion-item class= "background">
       <ion-label floating>Password</ion-label>
       <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
     </ion-item>
@@ -27,10 +27,69 @@
         </div>
       </ng-container>
     </div>
+    <!--
+    <ion-item class = "background">
+      <ion-label floating>Username</ion-label>
+      <ion-input formControlName="username" [(ngModel)] = "profile.username"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.username">
+        <div *ngIf="registerForm.get('username').hasError(validation.type) && (registerForm.get('username').dirty || registerForm.get('username').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    -->
+    <ion-item class = "background">
+      <ion-label floating>First Name</ion-label>
+      <ion-input formControlName="firstName" [(ngModel)] = "profile.firstName"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.firstName">
+        <div *ngIf="registerForm.get('firstName').hasError(validation.type) && (registerForm.get('firstName').dirty || registerForm.get('firstName').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <ion-item class = "background">
+      <ion-label floating>Last Name</ion-label>
+      <ion-input formControlName="lastName" [(ngModel)] = "profile.lastName"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.lastName">
+        <div *ngIf="registerForm.get('lastName').hasError(validation.type) && (registerForm.get('lastName').dirty || registerForm.get('lastName').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <ion-item class = "background">
+      <ion-label floating>Date of Birth</ion-label>
+      <ion-datetime formControlName="dateOfBirth" [(ngModel)] = "profile.dateOfBirth" display-format="DD/MM/YYYY"></ion-datetime>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.dateOfBirth">
+        <div *ngIf="registerForm.get('dateOfBirth').hasError(validation.type) && (registerForm.get('dateOfBirth').dirty || registerForm.get('dateOfBirth').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <ion-item class = "background">
+      <ion-label floating>Mobile Number</ion-label>
+      <ion-input formControlName="mobile" [(ngModel)] = "profile.mobile" display-format="00000000000"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.mobile">
+        <div *ngIf="registerForm.get('mobile').hasError(validation.type) && (registerForm.get('mobile').dirty || registerForm.get('mobile').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <!--
     <ion-item class=background>
       <ion-label floating>Confirm Password</ion-label>
       <ion-input formControlName="confirm_password" type="password"></ion-input>
     </ion-item>
+    -->
   </form>
   <ion-item no-lines class = "button-background">
     <button ion-button (click)="register(user)">Register</button>

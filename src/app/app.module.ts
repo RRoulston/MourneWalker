@@ -25,9 +25,6 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { WeatherProvider } from '../providers/weather/weather';
-import { FirebaseServicesProvider } from '../providers/firebase-services/firebase-services';
-import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DeviceMotion } from '@ionic-native/device-motion/ngx';
@@ -44,11 +41,17 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AlarmProvider } from '../providers/alarm/alarm';
+import { WeatherProvider } from '../providers/weather/weather';
+import { FirebaseServicesProvider } from '../providers/firebase-services/firebase-services';
+import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
+import { UserCoordinatesProvider } from '../providers/user-coordinates/user-coordinates';
 
 import { ProfilePageModule } from '../pages/profile/profile.module';
 import { UsernameValidator } from '../validators/username';
 import { PasswordValidator } from '../validators/password';
+//import { PasswordValidator } from '../validators/phone';
 
 
 //pages declared
@@ -97,6 +100,7 @@ import { PasswordValidator } from '../validators/password';
   //providers used
   providers: [
     LocationTrackerProvider,
+    UserCoordinatesProvider,
     BackgroundGeolocation,
     StatusBar,
     SplashScreen,
@@ -112,7 +116,7 @@ import { PasswordValidator } from '../validators/password';
     NativeAudio,
     AlarmProvider,
     UsernameValidator,
-    PasswordValidator
+    PasswordValidator,
   ]
 })
 export class AppModule { }
