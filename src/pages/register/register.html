@@ -3,6 +3,7 @@
     <ion-title>Register</ion-title>
   </ion-navbar>
 </ion-header>
+
 <ion-content padding>
   <form [formGroup]="registerForm">
     <ion-item class= "background">
@@ -16,6 +17,7 @@
         </div>
       </ng-container>
     </div>
+
     <ion-item class= "background">
       <ion-label floating>Password</ion-label>
       <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
@@ -27,19 +29,7 @@
         </div>
       </ng-container>
     </div>
-    <!--
-    <ion-item class = "background">
-      <ion-label floating>Username</ion-label>
-      <ion-input formControlName="username" [(ngModel)] = "profile.username"></ion-input>
-    </ion-item>
-    <div class="validation-errors">
-      <ng-container *ngFor="let validation of validation_messages.username">
-        <div *ngIf="registerForm.get('username').hasError(validation.type) && (registerForm.get('username').dirty || registerForm.get('username').touched)">
-          {{ validation.message }}
-        </div>
-      </ng-container>
-    </div>
-    -->
+
     <ion-item class = "background">
       <ion-label floating>First Name</ion-label>
       <ion-input formControlName="firstName" [(ngModel)] = "profile.firstName"></ion-input>
@@ -51,6 +41,7 @@
         </div>
       </ng-container>
     </div>
+
     <ion-item class = "background">
       <ion-label floating>Last Name</ion-label>
       <ion-input formControlName="lastName" [(ngModel)] = "profile.lastName"></ion-input>
@@ -62,6 +53,7 @@
         </div>
       </ng-container>
     </div>
+
     <ion-item class = "background">
       <ion-label floating>Date of Birth</ion-label>
       <ion-datetime formControlName="dateOfBirth" [(ngModel)] = "profile.dateOfBirth" display-format="DD/MM/YYYY"></ion-datetime>

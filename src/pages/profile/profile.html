@@ -28,6 +28,9 @@
           <ion-item>
             <strong>Current Longitude: {{ (profileData | async)?.longitude}}</strong>
           </ion-item>
+          <ion-item>
+            <strong>Percentage of Hikes Completed: {{ (profileData | async)?.percentage}}%</strong>
+          </ion-item>
         </ion-list>
       </ion-col>
     </ion-row>

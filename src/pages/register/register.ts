@@ -6,7 +6,6 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { PasswordValidator } from '../../validators/password';
-import { UsernameValidator } from '../../validators/username';
 
 @IonicPage()
 @Component({
@@ -20,10 +19,10 @@ export class RegisterPage {
   validation_messages: any;
   registerForm: FormGroup;
   submitAttempt = false;
-  matchingPasswords: FormGroup;
+  //matchingPasswords: FormGroup;
 
   constructor(private afAuth: AngularFireAuth, private formBuilder: FormBuilder, private afDatabase: AngularFireDatabase,
-    public navCtrl: NavController, public navParams: NavParams, private passwordValidator: PasswordValidator, private usernameValidator: UsernameValidator) {
+    public navCtrl: NavController, public navParams: NavParams, private passwordValidator: PasswordValidator) {
     this.createForm();
   }
 
@@ -39,14 +38,6 @@ export class RegisterPage {
         Validators.minLength(5),
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$') //this is for the letters (both uppercase and lowercase) and numbers validation'),
       ])),
-      /*
-      username: new FormControl('', Validators.compose([
-        Validators.required,
-        //this.usernameValidator.validUsername,
-        Validators.maxLength(25),
-        Validators.minLength(5)
-      ])),
-      */
       firstName: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('[a-zA-Z]*')
@@ -58,7 +49,6 @@ export class RegisterPage {
       dateOfBirth: new FormControl('', Validators.compose([
         Validators.required,
       ])),
-    //  country: new FormControl(this.countries[0], Validators.required),
       mobile: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('[0-9]*')
@@ -77,14 +67,6 @@ export class RegisterPage {
         { type: 'minLength', message: 'Password must be 5 or more characters' },
         { type: 'pattern', message: ' Password must contain letters (both uppercase and lowercase) and numbers' }
       ],
-      /*
-      username: [
-        { type: 'required', message: 'Username is required.' },
-        { type: 'minLength', message: 'Username must be 5 or more characters' },
-        { type: 'maxLength', message: 'Username must be less than 25 characters' },
-        { type: 'validUsername', message: 'Your username has already been taken.' }
-      ],
-      */
       firstName: [
         { type: 'required', message: 'First Name is required' },
         { type: 'pattern', message: 'First Name can only contain letters' }

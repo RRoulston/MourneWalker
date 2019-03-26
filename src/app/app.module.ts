@@ -9,9 +9,6 @@ import { TabsPageModule } from '../pages/tabs/tabs.module';
 
 import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
-//import { LoginPage } from '../pages/login/login';
-//import { RegisterPage } from '../pages/register/register';
-//import { CreateProfilePage } from '../pages/create-profile/create-profile';
 import { ProfilePage } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { WeatherPage } from '../pages/weather/weather';
@@ -49,10 +46,7 @@ import { LocationTrackerProvider } from '../providers/location-tracker/location-
 import { UserCoordinatesProvider } from '../providers/user-coordinates/user-coordinates';
 
 import { ProfilePageModule } from '../pages/profile/profile.module';
-import { UsernameValidator } from '../validators/username';
 import { PasswordValidator } from '../validators/password';
-//import { PasswordValidator } from '../validators/phone';
-
 
 //pages declared
 @NgModule({
@@ -115,8 +109,7 @@ import { PasswordValidator } from '../validators/password';
     FirebaseServicesProvider,
     NativeAudio,
     AlarmProvider,
-    UsernameValidator,
-    PasswordValidator,
+    PasswordValidator
   ]
 })
 export class AppModule { }

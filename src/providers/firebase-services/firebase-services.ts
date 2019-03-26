@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import 'rxjs/add/operator/map';
-import { FirebaseApp } from "angularfire2";
+//import { FirebaseApp } from "angularfire2";
 //import leaflet from 'leaflet';
 
 @Injectable()
@@ -11,35 +11,27 @@ export class FirebaseServicesProvider {
   //variables
   map: any;
   database: any;
-
-  constructor(private fb: FirebaseApp, public http: HttpClient, public afd: AngularFireDatabase) {
-    this.database = this.fb.database().ref('Hikes');
+  percentage: number = 0;
+  constructor(private afAuth: AngularFireAuth, public http: HttpClient, public afDatabase: AngularFireDatabase) {
+  //  this.database = this.fb.database().ref('Hikes');
 
   }
 
+  /*
   getHikeDetails(map) {
     var latlngs = [
       this.database.child('Slieve Donard').child('Path').on('value', snap =>
-      console.log(snap.val()))
-      ];
-    }
+        console.log(snap.val()))
+    ];
   }
-
-      /*
-    var path = leaflet.polyline(latlngs, {
-      color: 'red',
-      opacity: 1.0,
-      weight: 2
-    }).addTo(this.map);
-    map.fitBounds(path.getBounds());
-
-    /*
-    this.afd.ref('Hikes').child('Slieve Donard').valueChanges().subscribe(data => {
-      console.log(data);
-      */
-
-
-
-
-
-//.child('Path')
+  */
+  /*
+  updateDatabase(percentage) {
+    this.afAuth.authState.take(1).subscribe(auth => {
+      this.afDatabase.object(`profile/${auth.uid}`).update({
+        percentage: this.percentage
+      });
+    });
+  }
+  */
+}

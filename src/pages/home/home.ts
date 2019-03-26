@@ -3,14 +3,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SlievedonardPage } from '../slievedonard/slievedonard';
 import { SlievecommedaghPage } from '../slievecommedagh/slievecommedagh';
 import { HaresgapPage } from '../haresgap/haresgap';
-import { SlievebinnianPage } from '../slievebinnian/slievebinnian'
-//import { AngularFireAuth } from 'angularfire2/auth';
-//import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
-//import { Profile } from '../../models/profile';
-
-
-//import { FirebaseServicesProvider } from '../../providers/firebase-services/firebase-services';
-//import { AngularFireList } from 'angularfire2/database';
+import { SlievebinnianPage } from '../slievebinnian/slievebinnian';
+import { AngularFireAuth } from "angularfire2/auth";
+import { AngularFireDatabase } from 'angularfire2/database';
+import { FirebaseServicesProvider } from '../../providers/firebase-services/firebase-services';
 
 @IonicPage()
 @Component({
@@ -21,10 +17,12 @@ export class HomePage {
 
   isSearchbarOpen = false;
   hikes: any;
-  width = 0;
+  percentage = 0;
 
 //  profileData: FirebaseObjectObservable<Profile>
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase,
+    private firebaseServicesProvider: FirebaseServicesProvider) {
   }
 
   ionViewDidLoad() {
@@ -36,17 +34,27 @@ export class HomePage {
     console.log("index:", index);
     var elem = document.getElementById("progressInner");
     if (this.hikes[index].completed == 'danger') {
-      this.width = this.width + 25;
-      elem.style.width = this.width + '%';
-      elem.innerHTML = this.width * 1 + '%';
+      this.percentage = this.percentage + 25;
+      elem.style.width = this.percentage + '%';
+      elem.innerHTML = this.percentage * 1 + '%';
       this.hikes[index].completed = 'primary';
+      this.afAuth.authState.take(1).subscribe(auth => {
+        this.afDatabase.object(`profile/${auth.uid}`).update({
+          percentage: this.percentage
+        });
+      });
     } else if (this.hikes[index].completed == 'primary') {
-      this.width = this.width - 25;
-      elem.style.width = this.width + '%';
-      elem.innerHTML = this.width * 1 + '%';
+      this.percentage = this.percentage - 25;
+      elem.style.width = this.percentage + '%';
+      elem.innerHTML = this.percentage * 1 + '%';
       this.hikes[index].completed = 'danger';
+        this.afAuth.authState.take(1).subscribe(auth => {
+          this.afDatabase.object(`profile/${auth.uid}`).update({
+            percentage: this.percentage
+          });
+        });
+      }
     }
-  }
 
   initializeItems() {
     this.hikes = [{

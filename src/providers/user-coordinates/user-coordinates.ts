@@ -4,7 +4,6 @@ import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocati
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from 'angularfire2/database';
-import { FirebaseApp } from "angularfire2";
 import 'rxjs/add/operator/filter';
 
 
@@ -19,9 +18,8 @@ export class UserCoordinatesProvider {
 
   constructor(public http: HttpClient, public zone: NgZone,
     private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation,
-    private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase, private fb: FirebaseApp) {
+    private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase) {
     console.log('Hello LocationTrackerProvider Provider');
-    this.database = this.fb.database().ref('profile');
   }
 
   startTracking() {
