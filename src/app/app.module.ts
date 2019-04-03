@@ -30,6 +30,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Geofence } from '@ionic-native/geofence/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from "./app.firebase.config";
@@ -109,7 +110,8 @@ import { PasswordValidator } from '../validators/password';
     FirebaseServicesProvider,
     NativeAudio,
     AlarmProvider,
-    PasswordValidator
+    PasswordValidator,
+    BackgroundMode
   ]
 })
 export class AppModule { }

@@ -1,9 +1,10 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 import { FirebaseServicesProvider } from '../../providers/firebase-services/firebase-services';
 import { Geofence } from '@ionic-native/geofence/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import leaflet from 'leaflet';
 
 @IonicPage()
@@ -16,11 +17,19 @@ export class SlievedonardPage {
   //variables
   map: any;
   marker: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private geofence: Geofence,
     private locationTrackerProvider: LocationTrackerProvider, private localNotifications: LocalNotifications,
-    private firebaseServicesProvider: FirebaseServicesProvider) {
-  }
+    private firebaseServicesProvider: FirebaseServicesProvider, private backgroundMode: BackgroundMode,
+    private platform: Platform) {
 
+    platform.ready().then(() => {
+      this.backgroundMode.on('activate').subscribe(() => {
+        console.log('activated');
+      });
+      this.backgroundMode.enable();
+    });
+  }
   //First method which runs on the hikes page
   ionViewDidLoad() {
     console.log('ionViewDidLoad HikePage');
@@ -43,17 +52,17 @@ export class SlievedonardPage {
     }).addTo(this.map);
 
     //calling functions
-    //    this.addBackgroundGeolocation(this.map);
+    //  this.addBackgroundGeolocation(this.map);
     this.addMarkers(this.map);
-    //  this.addPolygon(this.map);
+    //this.addPolygon(this.map);
     this.addPolylines(this.map);
-  //  this.addGeofence(this.map);
+    this.addGeofence(this.map);
   }
 
 
-  //  addBackgroundGeolocation(map) {
-  //    this.locationTrackerProvider.startWatching(this.map);
-  //  }
+  addBackgroundGeolocation(map) {
+    this.locationTrackerProvider.startWatching(this.map);
+  }
 
   //add markers to the map
   addMarkers(map) {
@@ -205,22 +214,6 @@ export class SlievedonardPage {
     map.fitBounds(path.getBounds());
   }
 
-  /*
-  addPolygon(map) {
-    var latlngs = [
-      [54.6885, -5.88156],
-      [54.68837, -5.88135],
-      [54.6885, -5.88112],
-      [54.68863, -5.88131]
-    ];
-    leaflet.polygon(latlngs, {
-      color: 'blue',
-      opacity: 1.0,
-      weight: 2
-    }).addTo(this.map);
-  }
-  */
-
   addGeofence(map) {
     var marker;
     this.locationTrackerProvider.startWatching(this.map);
@@ -231,40 +224,16 @@ export class SlievedonardPage {
       (err) => console.log(err)
     )
 
-    var latlngs = [
-      [54.6885, -5.88156],
-      [54.6882, -5.881],
-      [54.68831, -5.88086],
-      [54.6885, -5.88112]
-    ];
-    var polygon = leaflet.polygon(latlngs, {
-      color: 'blue',
-      opacity: 1.0,
-      weight: 2
-    }).addTo(this.map);
-
-    latlngs = [
-      [54.58721, -5.86122],
-      [54.58682, -5.86084],
-      [54.58714, -5.86007],
-      [54.58747, -5.8606]
-    ];
-    polygon = leaflet.polygon(latlngs, {
-      color: 'blue',
-      opacity: 1.0,
-      weight: 2
-    }).addTo(this.map);
-
     //options describing geofence
     let fence = {
       id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
-      latitude: 54.58713, //center of geofence radius
-      longitude: -5.86068,
-      radius: 100, //radius to edge of geofence in meters
-      transitionType: 3 //see 'Transition Types' below
+      latitude: 54.68801, //center of geofence radius
+      longitude: -5.88149,
+      radius: 75, //radius to edge of geofence in meters
+      transitionType: 2 //see 'Transition Types' below
     }
-    leaflet.circle([54.68801, -5.88149], { color: 'red', radius: 100 }).addTo(this.map);
-    leaflet.circle([54.58713, -5.86068], { color: 'red', radius: 100 }).addTo(this.map);
+    leaflet.circle([54.68801, -5.88149], { color: 'red', radius: 75 }).addTo(this.map);
+    //  leaflet.circle([54.58713, -5.86068], { color: 'red', radius: 100 }).addTo(this.map);
 
     this.geofence.addOrUpdate(fence).then(
       () => console.log('Geofence added'),
@@ -272,17 +241,12 @@ export class SlievedonardPage {
     );
 
     this.geofence.onTransitionReceived().subscribe(resp => {
-      if (polygon.getBounds().contains(marker.getLatLng())) {
-        this.localNotifications.schedule({
-          id: 1,
-          title: 'Boundary Crossed',
-          text: 'You Have Left The Recommended Path',
-          vibrate: true
-        });
-        console.log('Test');
-      } else {
-        console.log('User not in Polygon');
-      }
+      this.localNotifications.schedule({
+        id: 1,
+        title: 'Boundary Crossed',
+        text: 'You Have Left The Recommended Path',
+        vibrate: true,
+      });
     });
   }
 }

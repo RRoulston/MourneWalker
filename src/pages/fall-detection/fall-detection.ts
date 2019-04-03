@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { DeviceMotion, DeviceMotionAccelerationData, DeviceMotionAccelerometerOptions } from '@ionic-native/device-motion/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AlarmProvider } from '../../providers/alarm/alarm';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 declare var sms: any;
 @IonicPage()
 @Component({
@@ -31,7 +32,15 @@ export class FallDetectionPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private deviceMotion: DeviceMotion,
     private alertController: AlertController, private callNumber: CallNumber, private androidPermissions: AndroidPermissions,
-    private geolocation: Geolocation, private alarmProvider: AlarmProvider) {
+    private geolocation: Geolocation, private alarmProvider: AlarmProvider, private backgroundMode: BackgroundMode,
+    private platform: Platform) {
+
+      platform.ready().then(() => {
+        this.backgroundMode.on('activate').subscribe(() => {
+          console.log('activated');
+        });
+
+      });
   }
 
   ionViewDidLoad() {
@@ -41,15 +50,9 @@ export class FallDetectionPage {
 
   }
 
-  makeCall() {
-    this.callNumber.callNumber("07443437927", true)
-      .then(res => console.log('Launched dialer!', res))
-      .catch(err => console.log('Error launching dialer', err));
-  }
-
   sendText(latitude, longitude) {
     var messageInfo = {
-      phoneNumber: "07794837315",
+      phoneNumber: "07443437927",
       textMessage: 'Fall Detection has been triggered at: Latitude ' + this.latitude + ' Longitude: ' + this.longitude
     };
     console.log(messageInfo);
@@ -71,7 +74,8 @@ export class FallDetectionPage {
     });
   }
 
-  startWatching(latitude, longitude) {
+  startWatching() {
+    this.backgroundMode.enable();
     let motionOptions: DeviceMotionAccelerometerOptions = {
       frequency: 500
     }
@@ -83,7 +87,7 @@ export class FallDetectionPage {
       this.motionTotal = Math.sqrt(Math.pow(this.motionX, 2) + Math.pow(this.motionY, 2) + Math.pow(this.motionZ, 2));
 
       console.log("Motion Total:", this.motionTotal);
-      if (this.motionTotal < 2.5) {
+      if (this.motionTotal < 7) {
         setTimeout(() => {
           if (this.motionTotal > 9.7 && this.motionTotal < 10.3) {
             if (this.alertPresented == false) {

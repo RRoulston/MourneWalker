@@ -25,7 +25,10 @@ export class LocationTrackerProvider {
       stationaryRadius: 20,
       distanceFilter: 10,
       debug: true,
-      interval: 10000
+      interval: 10000,
+      stopOnStillActivity: false,
+      stopOnTerminate: false,
+      startForeground:false
     };
 
     this.backgroundGeolocation.configure(config).subscribe((location: BackgroundGeolocationResponse) => {

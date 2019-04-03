@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { UserCoordinatesProvider } from '../../providers/user-coordinates/user-coordinates';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -16,7 +16,7 @@ export class ProfilePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private fireAuth: AngularFireAuth, private afDatabase: AngularFireDatabase,
-    private userCoordinatesProvider: UserCoordinatesProvider) {
+    private userCoordinatesProvider: UserCoordinatesProvider, private _app: App) {
   }
 
   ionViewDidLoad() {
@@ -36,7 +36,8 @@ export class ProfilePage {
 
   signOut() {
     this.fireAuth.auth.signOut().then(res => {
-      this.navCtrl.setRoot("LoginPage");
+    //  this.navCtrl.setRoot("LoginPage");
+      this._app.getRootNav().setRoot("LoginPage");
     });
   }
 }
