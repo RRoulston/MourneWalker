@@ -26,6 +26,8 @@ export class SlievedonardPage {
     platform.ready().then(() => {
       this.backgroundMode.on('activate').subscribe(() => {
         console.log('activated');
+        this.addBackgroundGeolocation(this.map);
+
       });
       this.backgroundMode.enable();
     });

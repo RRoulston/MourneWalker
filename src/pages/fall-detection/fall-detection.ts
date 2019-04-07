@@ -87,7 +87,7 @@ export class FallDetectionPage {
       this.motionTotal = Math.sqrt(Math.pow(this.motionX, 2) + Math.pow(this.motionY, 2) + Math.pow(this.motionZ, 2));
 
       console.log("Motion Total:", this.motionTotal);
-      if (this.motionTotal < 7) {
+      if (this.motionTotal < 2) {
         setTimeout(() => {
           if (this.motionTotal > 9.7 && this.motionTotal < 10.3) {
             if (this.alertPresented == false) {

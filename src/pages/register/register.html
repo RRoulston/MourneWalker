@@ -20,7 +20,9 @@
 
     <ion-item class= "background">
       <ion-label floating>Password</ion-label>
-      <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
+      <ion-input formControlName="password" type="{{type}}" clearOnEdit="false" [(ngModel)]="user.password"></ion-input>
+      <button primary large *ngIf="!showPass" ion-button clear color="gray" type="button" item-right (click)="showPassword()"> <ion-icon name="eye"></ion-icon></button>
+      <button primary large *ngIf="showPass" ion-button clear color="primary" type="button" item-right (click)="showPassword()"> <ion-icon name="eye"></ion-icon></button>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.password">
@@ -65,6 +67,7 @@
         </div>
       </ng-container>
     </div>
+    
     <ion-item class = "background">
       <ion-label floating>Mobile Number</ion-label>
       <ion-input formControlName="mobile" [(ngModel)] = "profile.mobile" display-format="00000000000"></ion-input>
@@ -76,12 +79,6 @@
         </div>
       </ng-container>
     </div>
-    <!--
-    <ion-item class=background>
-      <ion-label floating>Confirm Password</ion-label>
-      <ion-input formControlName="confirm_password" type="password"></ion-input>
-    </ion-item>
-    -->
   </form>
   <ion-item no-lines class = "button-background">
     <button ion-button (click)="register(user)">Register</button>

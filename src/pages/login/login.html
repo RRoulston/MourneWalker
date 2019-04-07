@@ -5,12 +5,11 @@
 </ion-header>
 
 <ion-content padding>
-
-    <ion-item class= "background">
+  <form [formGroup]="loginForm">
+    <ion-item class="background">
       <ion-label floating>Email Address</ion-label>
-      <ion-input type="text" [(ngModel)]="user.email"></ion-input>
+      <ion-input formControlName="email" type="text" [(ngModel)]="user.email"></ion-input>
     </ion-item>
-    <!--
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.email">
         <div *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
@@ -18,12 +17,16 @@
         </div>
       </ng-container>
     </div>
-    -->
-    <ion-item class= "background">
+    <ion-item class="background">
       <ion-label floating>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+      <ion-input formControlName="password" type="{{type}}" clearOnEdit="false" [(ngModel)]="user.password"></ion-input>
+      <button primary large *ngIf="!showPass" ion-button clear color="gray" type="button" item-right (click)="showPassword()">
+        <ion-icon name="eye"></ion-icon>
+      </button>
+      <button primary large *ngIf="showPass" ion-button clear color="primary" type="button" item-right (click)="showPassword()">
+        <ion-icon name="eye"></ion-icon>
+      </button>
     </ion-item>
-    <!--
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.password">
         <div *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
@@ -31,13 +34,13 @@
         </div>
       </ng-container>
     </div>
-    -->
+  </form>
   <ion-item no-lines class="button-background">
     <button ion-button (click)="login(user)">Login</button>
     <button ion-button (click)="register()">Register</button>
     <button ion-button (click)="skip()">Skip</button>
-    <p *ngIf="loginAttempt" style="color:#FF0000;">The email address or password you have<br/>
-       entered is incorrect.
-       Please try again</p>
+    <p *ngIf="loginAttempt" style="color:#FF0000;">The email address or password you have<br />
+      entered is incorrect.
+      Please try again</p>
   </ion-item>
 </ion-content>

@@ -19,7 +19,8 @@ export class RegisterPage {
   validation_messages: any;
   registerForm: FormGroup;
   submitAttempt = false;
-  //matchingPasswords: FormGroup;
+  type = 'password';
+  showPass = false;
 
   constructor(private afAuth: AngularFireAuth, private formBuilder: FormBuilder, private afDatabase: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams, private passwordValidator: PasswordValidator) {
@@ -32,7 +33,6 @@ export class RegisterPage {
         Validators.required,
         Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')
       ])),
-      //    'matchingPasswords': this.formBuilder.group({
       password: new FormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(5),
@@ -53,8 +53,6 @@ export class RegisterPage {
         Validators.required,
         Validators.pattern('[0-9]*')
       ])),
-      //    confirm_password: new FormControl('', Validators.required)
-      //  }, { validator: this.passwordValidator.areEqual })
     });
     this.validation_messages = {
       email: [
@@ -64,7 +62,7 @@ export class RegisterPage {
       ],
       password: [
         { type: 'required', message: 'Password is required' },
-        { type: 'minLength', message: 'Password must be 5 or more characters' },
+        { type: 'minLength', message: 'Password must be 7 or more characters' },
         { type: 'pattern', message: ' Password must contain letters (both uppercase and lowercase) and numbers' }
       ],
       firstName: [
@@ -82,6 +80,15 @@ export class RegisterPage {
         { type: 'required', message: 'Mobile is required' },
         { type: 'pattern', message: 'Mobile number can only contain numbers'}
       ]
+    }
+  }
+
+  showPassword() {
+    this.showPass = !this.showPass;
+    if(this.showPass){
+      this.type = 'text';
+    } else {
+      this.type = 'password';
     }
   }
 
