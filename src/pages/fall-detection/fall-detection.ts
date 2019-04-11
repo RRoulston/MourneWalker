@@ -6,6 +6,7 @@ import { AlarmProvider } from '../../providers/alarm/alarm';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 declare var sms: any;
 @IonicPage()
 @Component({
@@ -33,13 +34,12 @@ export class FallDetectionPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private deviceMotion: DeviceMotion,
     private alertController: AlertController, private callNumber: CallNumber, private androidPermissions: AndroidPermissions,
     private geolocation: Geolocation, private alarmProvider: AlarmProvider, private backgroundMode: BackgroundMode,
-    private platform: Platform) {
+    private platform: Platform, private localNotifications: LocalNotifications) {
 
       platform.ready().then(() => {
         this.backgroundMode.on('activate').subscribe(() => {
           console.log('activated');
         });
-
       });
   }
 
@@ -77,7 +77,7 @@ export class FallDetectionPage {
   startWatching() {
     this.backgroundMode.enable();
     let motionOptions: DeviceMotionAccelerometerOptions = {
-      frequency: 500
+      frequency: 250
     }
     this.isMotion = true;
     this.motion = this.deviceMotion.watchAcceleration(motionOptions).subscribe((acceleration: DeviceMotionAccelerationData) => {
@@ -87,9 +87,9 @@ export class FallDetectionPage {
       this.motionTotal = Math.sqrt(Math.pow(this.motionX, 2) + Math.pow(this.motionY, 2) + Math.pow(this.motionZ, 2));
 
       console.log("Motion Total:", this.motionTotal);
-      if (this.motionTotal < 2) {
+      if (this.motionTotal < 3) {
         setTimeout(() => {
-          if (this.motionTotal > 9.7 && this.motionTotal < 10.3) {
+          if (this.motionTotal > 9.4 && this.motionTotal < 10.2) {
             if (this.alertPresented == false) {
               this.alertPresented = true
               let alert = this.alertController.create({
@@ -100,7 +100,7 @@ export class FallDetectionPage {
                     text: 'I am OK',
                     handler: () => {
                       clearInterval(this.timer)
-                      this.alarmProvider.stop('alarm');
+                      this.alarmProvider.stop('fall');
                       this.alertPresented = false;
                     }
                   },
@@ -108,7 +108,7 @@ export class FallDetectionPage {
                     text: 'Message for Help',
                     handler: () => {
                       clearInterval(this.timer);
-                      this.alarmProvider.stop('alarm');
+                      this.alarmProvider.stop('fall');
                       this.sendText(this.latitude, this.longitude);
                       this.alertPresented = false;
                     }
@@ -116,8 +116,14 @@ export class FallDetectionPage {
                 ]
               });
               alert.present();
-              this.alarmProvider.play('alarm');
-              this.counter = 10;
+              this.alarmProvider.play('fall');
+              this.localNotifications.schedule({
+                id: 1,
+                title: 'Fall Detection System Triggered',
+                text: 'The Fall Detection System has triggered, please let us know if youre ok',
+                vibrate: true,
+              });
+              this.counter = 20;
               clearInterval(this.timer)
               this.timer = setInterval(() => {
                 this.counter--;

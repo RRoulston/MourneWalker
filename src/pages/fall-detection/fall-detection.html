@@ -14,10 +14,16 @@
 
 
 <ion-content padding>
-
-  <ion-item no-lines class = "button-background">
-  <button class = "button" ion-button color="primary" (click) = "startWatching()">Start Watching</button>
-  <button class = "button" ion-button color="danger" (click)="stopWatching()">Stop Watching</button>
+  <p>
+    Welcome to the Fall Detection page of the app! <br/>The application will monitor your phone to see if it detects a fall! <br/><br/>
+    If a fall is detected an alarm will play giving you 30 seconds to respond to cancel the alarm. However, if you have actually
+    fallen and are unable to respond to the alarm, your mobile phone will text the Mourne Mountain Rescue Team giving them your location!
+    The application will even monitor your phone in the backround so you don't need to keep your app open while hiking!<br/><br/>
+    Please remember to turn your volume up high so you can hear the alarm!
+  </p>
+  <ion-item no-lines class="button-background">
+    <button class="button" ion-button color="primary" (click)="startWatching()">Start Watching</button>
+    <button class="button" ion-button color="danger" (click)="stopWatching()">Stop Watching</button>
   </ion-item>
   <ion-card *ngIf="isMotion">
     <ion-card-content class="motion">

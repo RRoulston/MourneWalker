@@ -63,17 +63,17 @@ export class LoginPage {
     }
   }
 
-  login(user: User) {
-    this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+  async login(user: User) {
+    //this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
       try {
-        const result = this.afAuth.auth.signInWithEmailAndPassword(this.user.email, this.user.password);
+        const result = await this.afAuth.auth.signInWithEmailAndPassword(this.user.email, this.user.password);
         if (result) {
           this.navCtrl.setRoot('TabsPage');
         }
       } catch (e) {
         this.loginAttempt = true;
       }
-    });
+    //});
   }
 
   showPassword() {
