@@ -10,19 +10,22 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <!-- Default Progressbar with 50 percent -->
+  <!-- Creates a progress bar with a value of 0% -->
   <div id="progressOuter">
     <div id="progressInner">0%</div>
   </div>
+  <!-- Creates cards for all the items within the hikes array  -->
   <ion-card *ngFor="let item of hikes; let i=index;">
+    <!-- When the card is clicked it directs you to the relevant page -->
     <button class="btn" (click)="btnHike(i)" block>
       <img [src]="item.imgsrc" style="width : 100% ; height : 100%" >
-    <!--  <ion-checkbox id="isTicked" class="checkBox" (click)="completeHike()"></ion-checkbox> -->
     </button>
     <ion-item>
       <ion-icon name="walk" item-start large></ion-icon>
-  <!--<img src="{{myImage}}" style="height: 20px; width: 20px" align="right" vertical-align="middle" (click)="completeHike()"/> -->
-      <button (click)="completeHike(i)" class="completed" item-right ion-button [color]="item.completed">Completed</button>
+      <!-- When the button is clicked it updates the progress bar -->
+      <button (click)="completeHike(i)" class="completed"
+       item-right ion-button [color]="item.completed">Completed</button>
+       <!-- Relevant items from hike array are pulled onto the card -->
       <div class="hikeName">{{item.hikeName}}</div>
       <div class="hikeInfo">{{item.difficulty}} </div>
       <div class="hikeInfo">{{item.distance}}</div>

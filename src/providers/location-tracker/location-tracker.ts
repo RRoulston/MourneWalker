@@ -17,7 +17,7 @@ export class LocationTrackerProvider {
     console.log('Hello LocationTrackerProvider Provider');
   }
 
-  startWatching(map) {
+  startTracking(map) {
     var marker;
     // Background Tracking
     let config: BackgroundGeolocationConfig = {
@@ -68,5 +68,11 @@ export class LocationTrackerProvider {
           .bindPopup('<b>Your Current Location!</b>');
       })
     });
+  }
+
+  stopTracking(map) {
+    this.backgroundGeolocation.finish();
+    this.watch.unsubscribe();
+
   }
 }

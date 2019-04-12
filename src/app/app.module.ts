@@ -42,7 +42,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AlarmProvider } from '../providers/alarm/alarm';
 import { WeatherProvider } from '../providers/weather/weather';
-import { FirebaseServicesProvider } from '../providers/firebase-services/firebase-services';
 import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
 import { UserCoordinatesProvider } from '../providers/user-coordinates/user-coordinates';
 
@@ -107,7 +106,6 @@ import { PasswordValidator } from '../validators/password';
     AndroidPermissions,
     Geofence,
     LocalNotifications,
-    FirebaseServicesProvider,
     NativeAudio,
     AlarmProvider,
     PasswordValidator,

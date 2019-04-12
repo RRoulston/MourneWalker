@@ -105,7 +105,6 @@ export class RegisterPage {
       }
       catch (e) {
         console.error(e);
-        console.log("Yo")
       }
     } else {
       console.log("Error");

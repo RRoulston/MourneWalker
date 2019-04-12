@@ -1,28 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
+import { Platform } from 'ionic-angular';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation/ngx';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from 'angularfire2/database';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import 'rxjs/add/operator/filter';
 
 
 @Injectable()
 export class UserCoordinatesProvider {
-
   latitude: number = 0;
   longitude: number = 0;
   watch: any;
   database: any;
 
-
   constructor(public http: HttpClient, public zone: NgZone,
     private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation,
-    private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase) {
-    console.log('Hello LocationTrackerProvider Provider');
+    private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase,
+    private platform: Platform, private backgroundMode: BackgroundMode) {
+    console.log('Hello UserCoordinates Provider ');
+
+    platform.ready().then(() => {
+      this.backgroundMode.on('activate').subscribe(() => {
+        console.log('activated');
+      });
+    });
   }
 
+
   startTracking() {
+  //  this.backgroundMode.enable();
     // Background Tracking
     let config = {
       desiredAccuracy: 0,
@@ -56,10 +65,7 @@ export class UserCoordinatesProvider {
 
     // Turn ON the background-geolocation system.
     this.backgroundGeolocation.start();
-
-
     // Foreground Tracking
-
     let options = {
       frequency: 3000,
       enableHighAccuracy: true

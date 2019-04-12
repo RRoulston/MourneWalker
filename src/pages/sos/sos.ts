@@ -29,7 +29,7 @@ export class SosPage {
     this.showMap();
   }
 
-  //Guidance for creating map and markers from https://leafletjs.com/examples/quick-start/
+  //Code from https://leafletjs.com/
   //Creates a map from mapbox, with an outdoors layer
   showMap() {
     this.map = leaflet.map("userLocationMap");
@@ -50,24 +50,11 @@ export class SosPage {
   //using geolocation with Ionic https://ionicframework.com/docs/native/geolocation/
   //adds users current location to the map using Ionic Geolocation plugin
   addGeoLocation(map) {
-    this.locationTrackerProvider.startWatching(this.map);
+    this.locationTrackerProvider.startTracking(this.map);
     this.geolocation.watchPosition().subscribe((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
     });
-
-    /*
-    this.geolocation.getCurrentPosition().then((resp) => {
-
-
-      //displays users current location in a marker on the map
-      leaflet.marker([this.latitude, this.longitude]).addTo(map)
-        .bindPopup('<b>Your Current Location!</b>');
-      //if theres an error return the following...
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
-    */
   }
 
   makeCall() {

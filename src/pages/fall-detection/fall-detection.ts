@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { DeviceMotion, DeviceMotionAccelerationData, DeviceMotionAccelerometerOptions } from '@ionic-native/device-motion/ngx';
-import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AlarmProvider } from '../../providers/alarm/alarm';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -32,7 +31,7 @@ export class FallDetectionPage {
   toggleValue: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private deviceMotion: DeviceMotion,
-    private alertController: AlertController, private callNumber: CallNumber, private androidPermissions: AndroidPermissions,
+    private alertController: AlertController, private androidPermissions: AndroidPermissions,
     private geolocation: Geolocation, private alarmProvider: AlarmProvider, private backgroundMode: BackgroundMode,
     private platform: Platform, private localNotifications: LocalNotifications) {
 
@@ -94,7 +93,7 @@ export class FallDetectionPage {
               this.alertPresented = true
               let alert = this.alertController.create({
                 title: 'Fall Detected',
-                message: 'We Have Detected A Fall',
+                message: 'The System Has Detected A Fall. Please Respond',
                 buttons: [
                   {
                     text: 'I am OK',
@@ -123,7 +122,7 @@ export class FallDetectionPage {
                 text: 'The Fall Detection System has triggered, please let us know if youre ok',
                 vibrate: true,
               });
-              this.counter = 20;
+              this.counter = 30;
               clearInterval(this.timer)
               this.timer = setInterval(() => {
                 this.counter--;
@@ -136,7 +135,7 @@ export class FallDetectionPage {
               }, 1000);
             }
           }
-        }, 5000);
+        }, 10000);
       }
     });
   }

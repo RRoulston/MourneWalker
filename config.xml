@@ -99,7 +99,14 @@
     <plugin name="cordova-plugin-add-swift-support" spec="^1.7.2" />
     <plugin name="cordova-plugin-android-permissions" spec="~1.0.0" />
     <plugin name="cordova-plugin-geofence" spec="~0.7.0" />
-    <plugin name="cordova-plugin-mauron85-background-geolocation" spec="^3.0.0-alpha.50">
+    <plugin name="cordova-plugin-local-notification" spec="0.9.0-beta.2" />
+    <plugin name="cordova-plugin-gyroscope" spec="0.1.4" />
+    <plugin name="cordova-plugin-device-orientation" spec="2.0.1" />
+    <plugin name="cordova-plugin-screen-orientation" spec="3.0.1" />
+    <plugin name="cordova-plugin-nativeaudio" spec="3.0.9" />
+    <plugin name="com.jsmobile.plugins.sms" spec="https://github.com/hazems/cordova-sms-plugin.git" />
+    <plugin name="cordova-plugin-background-mode" spec="https://github.com/tushe/cordova-plugin-background-mode.git" />
+    <plugin name="cordova-plugin-mauron85-background-geolocation" spec="3.0.0-alpha.50">
         <variable name="GOOGLE_PLAY_SERVICES_VERSION" value="11+" />
         <variable name="ANDROID_SUPPORT_LIBRARY_VERSION" value="26+" />
         <variable name="ICON" value="@mipmap/icon" />
@@ -109,13 +116,6 @@
         <variable name="ACCOUNT_TYPE" value="$PACKAGE_NAME.account" />
         <variable name="CONTENT_AUTHORITY" value="$PACKAGE_NAME" />
     </plugin>
-    <plugin name="cordova-plugin-local-notification" spec="0.9.0-beta.2" />
-    <plugin name="cordova-plugin-gyroscope" spec="0.1.4" />
-    <plugin name="cordova-plugin-device-orientation" spec="2.0.1" />
-    <plugin name="cordova-plugin-screen-orientation" spec="3.0.1" />
-    <plugin name="cordova-plugin-nativeaudio" spec="3.0.9" />
-    <plugin name="com.jsmobile.plugins.sms" spec="https://github.com/hazems/cordova-sms-plugin.git" />
-    <plugin name="cordova-plugin-background-mode" spec="https://github.com/tushe/cordova-plugin-background-mode.git" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
 </widget>

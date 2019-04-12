@@ -6,7 +6,6 @@ import { HaresgapPage } from '../haresgap/haresgap';
 import { SlievebinnianPage } from '../slievebinnian/slievebinnian';
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from 'angularfire2/database';
-import { FirebaseServicesProvider } from '../../providers/firebase-services/firebase-services';
 
 @IonicPage()
 @Component({
@@ -19,43 +18,51 @@ export class HomePage {
   hikes: any;
   percentage = 0;
 
-//  profileData: FirebaseObjectObservable<Profile>
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase,
-    private firebaseServicesProvider: FirebaseServicesProvider) {
+    private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase) {
   }
 
   ionViewDidLoad() {
     this.initializeItems();
   }
 
-  //  var isTicked = document.getElementById("isTicked").checked;
+  //Search Bar
   completeHike(index) {
-    console.log("index:", index);
+    //Make elem = to the inner part of the progress bar
     var elem = document.getElementById("progressInner");
+    //If the button is red (danger), when clicked increase the percentage by 25%
+    //and increase the inner progress bar by 25%. Change button to completed(primary)
     if (this.hikes[index].completed == 'danger') {
       this.percentage = this.percentage + 25;
       elem.style.width = this.percentage + '%';
       elem.innerHTML = this.percentage * 1 + '%';
       this.hikes[index].completed = 'primary';
+      //Store new value of percentage in the Firebase Database for the logged in user
       this.afAuth.authState.take(1).subscribe(auth => {
         this.afDatabase.object(`profile/${auth.uid}`).update({
           percentage: this.percentage
         });
       });
+      //If the button is blue (primary), when clicked decrease the percentage by 25%
+      //and decrease the inner progress bar by 25%. Change button to completed(red)
     } else if (this.hikes[index].completed == 'primary') {
       this.percentage = this.percentage - 25;
       elem.style.width = this.percentage + '%';
       elem.innerHTML = this.percentage * 1 + '%';
       this.hikes[index].completed = 'danger';
-        this.afAuth.authState.take(1).subscribe(auth => {
-          this.afDatabase.object(`profile/${auth.uid}`).update({
-            percentage: this.percentage
-          });
+      //Store new value of percentage in the Firebase Database for the logged in user
+      this.afAuth.authState.take(1).subscribe(auth => {
+        this.afDatabase.object(`profile/${auth.uid}`).update({
+          percentage: this.percentage
         });
-      }
+      });
     }
+  }
 
+  /*
+  This method holds all the information about 4 hikes in the application, in an array.
+  When the page loads, all the information in the array is printed into 4 seperate cards
+  */
   initializeItems() {
     this.hikes = [{
       imgsrc: 'assets/imgs/slievedonard.jpg',
@@ -93,7 +100,6 @@ export class HomePage {
 
   onSearch(event) {
     this.initializeItems()
-    console.log(event.target.value);
     // set val to the value of the ev target
     var val = event.target.value;
     // if the value is an empty string don't filter the items

@@ -1,7 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
-import { FirebaseServicesProvider } from '../../providers/firebase-services/firebase-services';
 import { Geofence } from '@ionic-native/geofence/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
@@ -20,14 +19,12 @@ export class SlievedonardPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private geofence: Geofence,
     private locationTrackerProvider: LocationTrackerProvider, private localNotifications: LocalNotifications,
-    private firebaseServicesProvider: FirebaseServicesProvider, private backgroundMode: BackgroundMode,
-    private platform: Platform) {
+    private backgroundMode: BackgroundMode, private platform: Platform) {
 
     platform.ready().then(() => {
       this.backgroundMode.on('activate').subscribe(() => {
         console.log('activated');
       });
-      this.backgroundMode.enable();
     });
   }
   //First method which runs on the hikes page
@@ -36,10 +33,9 @@ export class SlievedonardPage {
     this.showMap();
   }
 
-  //Guidance for creating map and markers from https://leafletjs.com/examples/quick-start/
   //Creates a map from mapbox, with an outdoors layer
   showMap() {
-    //map opens at co-ordinates [54.1868, -5.9208] with a zoom 13
+    //map opens at co-ordinates [54.1868, -5.9208] (Slieve Donard) with a zoom 13
     this.map = leaflet.map("map").setView([54.1868, -5.9208], 13);
     leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -52,19 +48,21 @@ export class SlievedonardPage {
     }).addTo(this.map);
 
     //calling functions
-    //  this.addBackgroundGeolocation(this.map);
     this.addMarkers(this.map);
-    //this.addPolygon(this.map);
     this.addPolylines(this.map);
+  }
+
+  //starts tracking your geolocation and adds geofences
+  startHike() {
+    this.locationTrackerProvider.startTracking(this.map);
     this.addGeofence(this.map);
   }
 
-
-  addBackgroundGeolocation(map) {
-    this.backgroundMode.enable();
-    this.locationTrackerProvider.startWatching(this.map);
+  //stop tracking your geolocation and adds geofences
+  stopHike() {
+    this.locationTrackerProvider.stopTracking(this.map);
+    this.removeGeofence(this.map);
   }
-
   //add markers to the map
   addMarkers(map) {
     //create marker to be added at the summit of routes
@@ -93,7 +91,8 @@ export class SlievedonardPage {
     leaflet.marker([54.18019, -5.92085], { icon: pointOfInterest }).addTo(this.map)
       .bindPopup('<b>The Stone Tower at the Summit of Slieve Donard!</b><div><img style="width:100%"src="assets/imgs/slieveDonardStonetower.jpg" alt"Slieve Donard Stone Tower"></div>');
 
-    leaflet.circle([54.1949, -5.9167], { color: 'red', radius: 2000 }).addTo(this.map);
+    leaflet.marker([54.18256, -5.93261], { icon: pointOfInterest }).addTo(this.map)
+      .bindPopup('<b>The Mourne Wall!</b><div><img style="width:100%"src="assets/imgs/mournewall.jpg" alt"The Mourne Wall"></div>');
   }
 
   //polylines added to create the route of the trail
@@ -216,8 +215,7 @@ export class SlievedonardPage {
   }
 
   addGeofence(map) {
-    var marker;
-    this.locationTrackerProvider.startWatching(this.map);
+    this.backgroundMode.enable();
     // initialize the plugin
     this.geofence.initialize().then(
       // resolved promise does not return a value
@@ -225,29 +223,69 @@ export class SlievedonardPage {
       (err) => console.log(err)
     )
 
-    //options describing geofence
-    let fence = {
-      id: '69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb', //any unique ID
-      latitude: 54.68801, //center of geofence radius
-      longitude: -5.88149,
+    //geofence for reaching the top of SLieve Donard
+    let fence = [{
+      id: 'donard', //any unique ID
+      latitude: 54.18025,    //center of geofence radius
+      longitude: -5.92071,
       radius: 75, //radius to edge of geofence in meters
-      transitionType: 2 //see 'Transition Types' below
-    }
-    leaflet.circle([54.68801, -5.88149], { color: 'red', radius: 75 }).addTo(this.map);
-    //  leaflet.circle([54.58713, -5.86068], { color: 'red', radius: 100 }).addTo(this.map);
+      transitionType: 1, //triggers when geofence is entered
+      notification: { //notification settings
+        id: 1,
+        title: 'Top of Slieve Donard!',
+        text: 'You Made it to the Top of Slieve Donard!',
+        openAppOnClick: true //open app when notification is tapped
+      }
+    },
+    //geofence for reaching the Mourne Wall
+    {
+      id: 'wall', //any unique ID
+      latitude: 54.18256, //center of geofence radius
+      longitude: -5.93261,
+      radius: 75, //radius to edge of geofence in meters
+      transitionType: 1, //triggers when geofence is entered
+      notification: {
+        title: 'Mourne Wall!',
+        text: 'Youve arrived at the Mourne Wall!',
+        openAppOnClick: true
+      }
+    },
+    //geofence for reaching the Mourne Wall
+    {
+      id: 'Moka', //any unique ID
+      latitude: 54.68727,
+      longitude: -5.88364,
+      radius: 75, //radius to edge of geofence in meters
+      transitionType: 1, //triggers when geofence is entered
+      notification: {
+        title: 'Moka!',
+        text: 'WooHoo! Youve arrived at Moka!',
+        openAppOnClick: true
+      }
+    }]
 
+    //adds geofence
     this.geofence.addOrUpdate(fence).then(
       () => console.log('Geofence added'),
       (err) => console.log('Geofence failed to add')
     );
 
+    //triggers when geofence is crossed, sending notification to phone
     this.geofence.onTransitionReceived().subscribe(resp => {
+      console.log("Geofence transition detected", resp);
       this.localNotifications.schedule({
         id: 1,
-        title: 'Boundary Crossed',
-        text: 'You Have Left The Recommended Path',
-        vibrate: true,
-      });
+        title: resp[0].notification.title,
+        text: resp[0].notification.text,
+        vibrate: true
+      })
     });
+  }
+
+  removeGeofence(map) {
+    this.geofence.removeAll().then(
+      () => console.log('Geofence removed'),
+      (err) => console.log('Geofence failed to remove')
+    );
   }
 }

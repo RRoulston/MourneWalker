@@ -40,15 +40,16 @@ export class SlievecommedaghPage {
     }).addTo(this.map);
 
     //calling functions
-    this.addBackgroundGeolocation(this.map);
+  //  this.addBackgroundGeolocation(this.map);
     this.addMarkers(this.map);
     this.addPolylines(this.map);
   }
 
-
+  /*
   addBackgroundGeolocation(map) {
     this.locationTrackerProvider.startWatching(this.map);
   }
+  */
 
   //add markers to the map
   addMarkers(map) {

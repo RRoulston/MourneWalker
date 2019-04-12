@@ -46,7 +46,7 @@ export class SlievebinnianPage {
 
 
   addBackgroundGeolocation(map) {
-    this.locationTrackerProvider.startWatching(this.map);
+    this.locationTrackerProvider.startTracking(this.map);
   }
 
   //add markers to the map
@@ -76,6 +76,11 @@ export class SlievebinnianPage {
     //add market at the summit of routes
     leaflet.marker([54.15354, -5.98079], { icon: pointOfInterest }).addTo(this.map)
       .bindPopup('<b>Slieve Binnian North Tor!</b><div><img style="width:100%"src="assets/imgs/slieveBinnianNorthTor.jpg" alt="Slieve Binnian North Tor"></div>');
+
+      var circle = leaflet.circle([54.1495, -5.9687], {
+      color: 'red',
+      radius: 1700
+  }).addTo(this.map);
   }
 
   //polylines added to create the route of the trail
