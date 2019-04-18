@@ -28,6 +28,7 @@ export class RegisterPage {
   }
 
   createForm() {
+    //Form Builder is used
     this.registerForm = this.formBuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -36,7 +37,7 @@ export class RegisterPage {
       password: new FormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(5),
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$') //this is for the letters (both uppercase and lowercase) and numbers validation'),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
       ])),
       firstName: new FormControl('', Validators.compose([
         Validators.required,
@@ -91,20 +92,24 @@ export class RegisterPage {
       this.type = 'password';
     }
   }
-
+  //register an account in Firebase.
+  //pass in the user model values email and password
   async register(user: User) {
     this.submitAttempt = true;
+    //if all fields in the registraion form are valid then create account
     if (this.registerForm.valid) {
       try {
+        //create authentication with email and password
         const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-        console.log(result);
+        //using auth.uid, store the rest of the information; name, phonenumber, etc. in realtime database
+        //then redirect user to LoginPage
         this.afAuth.authState.take(1).subscribe(auth => {
           this.afDatabase.object(`profile/${auth.uid}`).set(this.profile)
             .then(() => this.navCtrl.setRoot('LoginPage'));
         });
       }
       catch (e) {
-        console.error(e);
+        alert("Ya Done");
       }
     } else {
       console.log("Error");

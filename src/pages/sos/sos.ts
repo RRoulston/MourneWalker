@@ -57,23 +57,28 @@ export class SosPage {
     });
   }
 
+  //make call to specified number, true variable ensures the app bypasses the
+  //app chooser if the user has multiple applications installed that can handle calls
   makeCall() {
     this.callNumber.callNumber("07443437927", true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
   }
 
+  //pass in users latitude and longitude values
   sendText(latitude, longitude) {
+    //declare number and text message to send with latitude and longitude values
     var messageInfo = {
       phoneNumber: "07443437927",
-      textMessage: 'Users has requested assitance at location: Latitude ' + this.latitude + ' Longitude: ' + this.longitude
+      textMessage: 'Users has requested assitance at location: Latitude ' +
+       this.latitude + ' Longitude: ' + this.longitude
     };
-    console.log(messageInfo);
+    //request permission from the user to send SMS from their phone, if they accept send the text.
     this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(() => {
       sms.sendMessage(messageInfo, function(message) {
-        alert(message)
+        alert("SMS has Succesfully been Sent")
       }, function(error) {
-        alert(error);
+        alert("Error sending SMS, please Check if you have a Network Signal");
       });
     }).catch((err) => {
       alert(JSON.stringify(err, Object.getOwnPropertyNames(err)));

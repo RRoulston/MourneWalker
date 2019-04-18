@@ -228,7 +228,7 @@ export class SlievedonardPage {
       id: 'donard', //any unique ID
       latitude: 54.18025,    //center of geofence radius
       longitude: -5.92071,
-      radius: 75, //radius to edge of geofence in meters
+      radius: 100, //radius to edge of geofence in meters
       transitionType: 1, //triggers when geofence is entered
       notification: { //notification settings
         id: 1,
@@ -242,34 +242,20 @@ export class SlievedonardPage {
       id: 'wall', //any unique ID
       latitude: 54.18256, //center of geofence radius
       longitude: -5.93261,
-      radius: 75, //radius to edge of geofence in meters
+      radius: 100, //radius to edge of geofence in meters
       transitionType: 1, //triggers when geofence is entered
       notification: {
         title: 'Mourne Wall!',
         text: 'Youve arrived at the Mourne Wall!',
         openAppOnClick: true
       }
-    },
-    //geofence for reaching the Mourne Wall
-    {
-      id: 'Moka', //any unique ID
-      latitude: 54.68727,
-      longitude: -5.88364,
-      radius: 75, //radius to edge of geofence in meters
-      transitionType: 1, //triggers when geofence is entered
-      notification: {
-        title: 'Moka!',
-        text: 'WooHoo! Youve arrived at Moka!',
-        openAppOnClick: true
-      }
-    }]
-
+    }
+  ]
     //adds geofence
     this.geofence.addOrUpdate(fence).then(
       () => console.log('Geofence added'),
       (err) => console.log('Geofence failed to add')
     );
-
     //triggers when geofence is crossed, sending notification to phone
     this.geofence.onTransitionReceived().subscribe(resp => {
       console.log("Geofence transition detected", resp);

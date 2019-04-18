@@ -35,11 +35,11 @@ export class FallDetectionPage {
     private geolocation: Geolocation, private alarmProvider: AlarmProvider, private backgroundMode: BackgroundMode,
     private platform: Platform, private localNotifications: LocalNotifications) {
 
-      platform.ready().then(() => {
-        this.backgroundMode.on('activate').subscribe(() => {
-          console.log('activated');
-        });
+    platform.ready().then(() => {
+      this.backgroundMode.on('activate').subscribe(() => {
+        console.log('activated');
       });
+    });
   }
 
   ionViewDidLoad() {
@@ -57,9 +57,9 @@ export class FallDetectionPage {
     console.log(messageInfo);
     this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(() => {
       sms.sendMessage(messageInfo, function(message) {
-        alert(message)
+        alert("SMS has Succesfully been Sent")
       }, function(error) {
-        alert(error);
+        alert("Error sending SMS, please Check if you have a Network Signal");
       });
     }).catch((err) => {
       alert(JSON.stringify(err, Object.getOwnPropertyNames(err)));

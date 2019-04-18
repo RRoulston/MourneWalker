@@ -31,38 +31,33 @@ export class UserCoordinatesProvider {
 
 
   startTracking() {
-  //  this.backgroundMode.enable();
     // Background Tracking
-    let config = {
+    console.log("Yo Bro")
+    let config: BackgroundGeolocationConfig = {
       desiredAccuracy: 0,
       stationaryRadius: 20,
       distanceFilter: 10,
       debug: true,
-      interval: 2000
+      interval: 5000,
+      stopOnTerminate: false, // enable this to clear background location settings when the app terminates
+
     };
-
-    this.backgroundGeolocation.configure(config).subscribe((location) => {
-
-      console.log('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
-
+    this.backgroundGeolocation.configure(config).subscribe((location: BackgroundGeolocationResponse) => {
       // Run update inside of Angular's zone
       this.zone.run(() => {
         this.latitude = location.latitude;
         this.longitude = location.longitude;
       });
+      // Store Updated Co-ordinates in Database, based off the users ID
       this.afAuth.authState.take(1).subscribe(auth => {
         this.afDatabase.object(`profile/${auth.uid}`).update({
           latitude: this.latitude,
           longitude: this.longitude
         });
       });
-
     }, (err) => {
-
       console.log(err);
-
     });
-
     // Turn ON the background-geolocation system.
     this.backgroundGeolocation.start();
     // Foreground Tracking
@@ -70,23 +65,23 @@ export class UserCoordinatesProvider {
       frequency: 3000,
       enableHighAccuracy: true
     };
-
-    this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
-
-      console.log(position);
-
-      // Run update inside of Angular's zone
-      this.zone.run(() => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-      });
-      this.afAuth.authState.take(1).subscribe(auth => {
-        this.afDatabase.object(`profile/${auth.uid}`).update({
-          latitude: this.latitude,
-          longitude: this.longitude
+    //watch the users geolocation
+    this.watch = this.geolocation.watchPosition(options).filter((p: any) =>
+      p.code === undefined).subscribe((position: Geoposition) => {
+        console.log(position);
+        // Run update inside of Angular's zone
+        this.zone.run(() => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+        });
+        // Store Updated Co-ordinates in Database, based off the users ID
+        this.afAuth.authState.take(1).subscribe(auth => {
+          this.afDatabase.object(`profile/${auth.uid}`).update({
+            latitude: this.latitude,
+            longitude: this.longitude
+          });
         });
       });
-    });
   }
   stopTracking() {
     console.log('stopTracking');

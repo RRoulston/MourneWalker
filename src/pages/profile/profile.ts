@@ -25,9 +25,8 @@ export class ProfilePage {
       });
     });
   }
-
+  //returns the users profile information, based on their user ID
   ionViewDidLoad() {
-    this.backgroundMode.enable();
     console.log('ionViewDidLoad ProfilePage');
     try {
       this.fireAuth.authState.subscribe(data => {
