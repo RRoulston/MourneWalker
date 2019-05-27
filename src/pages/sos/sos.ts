@@ -18,6 +18,7 @@ export class SosPage {
   map: any;
   latitude: any;
   longitude: any;
+  watch: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private geolocation: Geolocation, private callNumber: CallNumber,
@@ -29,10 +30,15 @@ export class SosPage {
     this.showMap();
   }
 
+  ionViewDidLeave(){
+    this.watch.unsubscribe();
+    console.log("unsubscribe");
+}
+
   //Code from https://leafletjs.com/
   //Creates a map from mapbox, with an outdoors layer
   showMap() {
-    this.map = leaflet.map("userLocationMap");
+    this.map = leaflet.map("map");
     leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       //maximum the map can zoom out to
@@ -50,11 +56,22 @@ export class SosPage {
   //using geolocation with Ionic https://ionicframework.com/docs/native/geolocation/
   //adds users current location to the map using Ionic Geolocation plugin
   addGeoLocation(map) {
-    this.locationTrackerProvider.startTracking(this.map);
-    this.geolocation.watchPosition().subscribe((resp) => {
+    var marker;
+    let options = {
+        enableHighAccuracy: true,
+        frequency: 3000
+      };
+    //this.locationTrackerProvider.startTracking(this.map);
+    this.watch = this.geolocation.watchPosition(options).subscribe((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
+      if (marker) {
+        map.removeLayer(marker);
+      }
+      marker = leaflet.marker([this.latitude, this.longitude]).addTo(this.map)
+        .bindPopup('<b>Your Current Location!</b>');
     });
+    //displays users current location in a marker on the map
   }
 
   //make call to specified number, true variable ensures the app bypasses the

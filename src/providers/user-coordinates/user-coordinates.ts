@@ -32,7 +32,7 @@ export class UserCoordinatesProvider {
 
   startTracking() {
     // Background Tracking
-    console.log("Yo Bro")
+    console.log("BackGround Tracking");
     let config: BackgroundGeolocationConfig = {
       desiredAccuracy: 0,
       stationaryRadius: 20,

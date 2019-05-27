@@ -11,7 +11,4 @@ export class ProgressBarComponent {
   constructor() {
     console.log('Hello ProgressBarComponent Component');
   }
-
-  
-
 }

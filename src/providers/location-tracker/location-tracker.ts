@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
+import { Platform } from 'ionic-angular';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation/ngx';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
+import { AngularFireAuth } from "angularfire2/auth";
+import { AngularFireDatabase } from 'angularfire2/database';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import leaflet from 'leaflet';
@@ -13,8 +17,17 @@ export class LocationTrackerProvider {
   longitude: any;
   watch: any;
 
-  constructor(public http: HttpClient, public zone: NgZone, private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation) {
+  constructor(public http: HttpClient, public zone: NgZone,
+    private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation,
+    private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase,
+    private platform: Platform, private backgroundMode: BackgroundMode) {
     console.log('Hello LocationTrackerProvider Provider');
+
+    platform.ready().then(() => {
+      this.backgroundMode.on('activate').subscribe(() => {
+        console.log('activated');
+      });
+    });
   }
 
   startTracking(map) {
@@ -40,6 +53,13 @@ export class LocationTrackerProvider {
         this.latitude = location.latitude;
         this.longitude = location.longitude;
       });
+      // Store Updated Co-ordinates in Database, based off the users ID
+      this.afAuth.authState.take(1).subscribe(auth => {
+        this.afDatabase.object(`profile/${auth.uid}`).update({
+          latitude: this.latitude,
+          longitude: this.longitude
+        });
+      });
     }, (err) => {
       console.log(err);
     });
@@ -59,6 +79,14 @@ export class LocationTrackerProvider {
       this.zone.run(() => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
+
+        // Store Updated Co-ordinates in Database, based off the users ID
+        this.afAuth.authState.take(1).subscribe(auth => {
+          this.afDatabase.object(`profile/${auth.uid}`).update({
+            latitude: this.latitude,
+            longitude: this.longitude
+          });
+        });
 
         if (marker) {
           map.removeLayer(marker);
