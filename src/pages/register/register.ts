@@ -5,7 +5,7 @@ import { Profile } from '../../models/profile';
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { PasswordValidator } from '../../validators/password';
+import { MustMatch } from '../../validators/password';
 
 @IonicPage()
 @Component({
@@ -19,11 +19,13 @@ export class RegisterPage {
   validation_messages: any;
   registerForm: FormGroup;
   submitAttempt = false;
-  type = 'password';
+  typePassword = 'password';
+  typeConfirmPassword = 'password';
   showPass = false;
+  showConfirmPass = false;
 
   constructor(private afAuth: AngularFireAuth, private formBuilder: FormBuilder, private afDatabase: AngularFireDatabase,
-    public navCtrl: NavController, public navParams: NavParams, private passwordValidator: PasswordValidator) {
+    public navCtrl: NavController, public navParams: NavParams) {
     this.createForm();
   }
 
@@ -34,11 +36,6 @@ export class RegisterPage {
         Validators.required,
         Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')
       ])),
-      password: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(5),
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
-      ])),
       firstName: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('[a-zA-Z]*')
@@ -47,14 +44,22 @@ export class RegisterPage {
         Validators.required,
         Validators.pattern('[a-zA-Z]*')
       ])),
-      dateOfBirth: new FormControl('', Validators.compose([
-        Validators.required,
-      ])),
+      dateOfBirth: new FormControl('', Validators.required),
       mobile: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('[0-9]*')
       ])),
-    });
+      password: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(7),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+      ])),
+      confirmPassword: new FormControl('', Validators.compose([
+        Validators.required,
+      ]))
+    }, {
+        validator: MustMatch('password', 'confirmPassword')
+      });
     this.validation_messages = {
       email: [
         { type: 'required', message: 'Email is required' },
@@ -63,8 +68,12 @@ export class RegisterPage {
       ],
       password: [
         { type: 'required', message: 'Password is required' },
-        { type: 'minLength', message: 'Password must be 7 or more characters' },
+        { type: 'minlength', message: 'Password must be 7 or more characters' },
         { type: 'pattern', message: ' Password must contain letters (both uppercase and lowercase) and numbers' }
+      ],
+      confirmPassword: [
+        { type: 'required', message: 'Password is required' },
+        { type: 'mustMatch', message: 'Passwords must match' }
       ],
       firstName: [
         { type: 'required', message: 'First Name is required' },
@@ -79,17 +88,26 @@ export class RegisterPage {
       ],
       mobile: [
         { type: 'required', message: 'Mobile is required' },
-        { type: 'pattern', message: 'Mobile number can only contain numbers'}
+        { type: 'pattern', message: 'Mobile number can only contain numbers' }
       ]
     }
   }
 
   showPassword() {
     this.showPass = !this.showPass;
-    if(this.showPass){
-      this.type = 'text';
+    if (this.showPass) {
+      this.typePassword = 'text';
     } else {
-      this.type = 'password';
+      this.typePassword = 'password';
+    }
+  }
+
+  showConfirmPassword() {
+    this.showConfirmPass = !this.showConfirmPass;
+    if (this.showConfirmPass) {
+      this.typeConfirmPassword = 'text';
+    } else {
+      this.typeConfirmPassword = 'password';
     }
   }
   //register an account in Firebase.
@@ -103,13 +121,15 @@ export class RegisterPage {
         const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
         //using auth.uid, store the rest of the information; name, phonenumber, etc. in realtime database
         //then redirect user to LoginPage
-        this.afAuth.authState.take(1).subscribe(auth => {
-          this.afDatabase.object(`profile/${auth.uid}`).set(this.profile)
-            .then(() => this.navCtrl.setRoot('LoginPage'));
-        });
+        if (result) {
+          this.afAuth.authState.take(1).subscribe(auth => {
+            this.afDatabase.object(`profile/${auth.uid}`).set(this.profile)
+              .then(() => this.navCtrl.setRoot('LoginPage'));
+          });
+        }
       }
       catch (e) {
-        alert("Ya Done");
+        alert("Email Address Already Taken");
       }
     } else {
       console.log("Error");

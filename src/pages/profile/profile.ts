@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, Platform } from 'ionic-angular';
-import { UserCoordinatesProvider } from '../../providers/user-coordinates/user-coordinates';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
-import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @IonicPage()
 @Component({
@@ -18,16 +16,7 @@ export class ProfilePage {
   loggedIn: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private fireAuth: AngularFireAuth, private afDatabase: AngularFireDatabase,
-    private userCoordinatesProvider: UserCoordinatesProvider, private _app: App,
-    private backgroundMode: BackgroundMode, private platform: Platform) {
-    /*
-  platform.ready().then(() => {
-    this.backgroundMode.on('activate').subscribe(() => {
-      console.log('activated');
-    });
-  });
-  */
+    private fireAuth: AngularFireAuth, private afDatabase: AngularFireDatabase, private _app: App) {
     this.user = fireAuth.authState;
 
     this.user.subscribe(
@@ -39,7 +28,6 @@ export class ProfilePage {
         }
       }
     );
-
   }
 
   //returns the users profile information, based on their user ID
@@ -55,7 +43,6 @@ export class ProfilePage {
     } catch (err) {
       console.log("User Not Logged In");
     }
-
   }
 
   /*userLocation() {
@@ -74,6 +61,6 @@ export class ProfilePage {
   }
 
   login() {
-      this._app.getRootNav().setRoot("LoginPage");
+    this._app.getRootNav().setRoot("LoginPage");
   }
 }

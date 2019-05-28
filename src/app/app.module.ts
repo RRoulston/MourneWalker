@@ -43,10 +43,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AlarmProvider } from '../providers/alarm/alarm';
 import { WeatherProvider } from '../providers/weather/weather';
 import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
-import { UserCoordinatesProvider } from '../providers/user-coordinates/user-coordinates';
 
 import { ProfilePageModule } from '../pages/profile/profile.module';
-import { PasswordValidator } from '../validators/password';
+//import { MustMatch } from '../validators/password';
 
 //pages declared
 @NgModule({
@@ -94,7 +93,6 @@ import { PasswordValidator } from '../validators/password';
   //providers used
   providers: [
     LocationTrackerProvider,
-    UserCoordinatesProvider,
     BackgroundGeolocation,
     StatusBar,
     SplashScreen,
@@ -108,7 +106,7 @@ import { PasswordValidator } from '../validators/password';
     LocalNotifications,
     NativeAudio,
     AlarmProvider,
-    PasswordValidator,
+    //MustMatch,
     BackgroundMode
   ]
 })

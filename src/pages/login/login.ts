@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { User } from "../../models/user";
 import { AngularFireAuth } from 'angularfire2/auth';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -25,6 +24,7 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
+    /*
     this.afAuth.auth.onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
@@ -36,6 +36,7 @@ export class LoginPage {
 
       }
     });
+    */
   }
 
   createForm() {
@@ -46,7 +47,7 @@ export class LoginPage {
       ])),
       password: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(7),
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$') //this is for the letters (both uppercase and lowercase) and numbers validation'),
       ])),
     });
@@ -57,23 +58,26 @@ export class LoginPage {
       ],
       password: [
         { type: 'required', message: 'Password is required' },
-        { type: 'minLength', message: 'Password must be 7 or more characters' },
+        { type: 'minlength', message: 'Password must be 7 or more characters' },
         { type: 'pattern', message: ' Password must contain letters (both uppercase and lowercase) and numbers' }
       ]
     }
   }
 
   async login(user: User) {
-    //this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+    this.loginAttempt = true;
+    if (this.loginForm.valid) {
       try {
         const result = await this.afAuth.auth.signInWithEmailAndPassword(this.user.email, this.user.password);
         if (result) {
           this.navCtrl.setRoot('TabsPage');
         }
       } catch (e) {
-        this.loginAttempt = true;
+        alert("No Internet Access");
       }
-    //});
+    } else {
+      alert("No Internet Access");
+    }
   }
 
   showPassword() {
