@@ -73,10 +73,18 @@ export class LoginPage {
           this.navCtrl.setRoot('TabsPage');
         }
       } catch (e) {
-        alert("No Internet Access");
+        if (e.code == "auth/network-request-failed") {
+          alert("Error. No Internet Connection");
+          console.log(e);
+        } else if (e.code == "auth/user-not-found") {
+          console.log(e);
+        } else {
+          alert("Unknown Error")
+          console.log(e);
+        }
       }
     } else {
-      alert("No Internet Access");
+      console.log('Invalid Email');
     }
   }
 

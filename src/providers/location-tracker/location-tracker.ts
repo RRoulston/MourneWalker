@@ -16,6 +16,7 @@ export class LocationTrackerProvider {
   latitude: any;
   longitude: any;
   watch: any;
+  marker: any;
 
   constructor(public http: HttpClient, public zone: NgZone,
     private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation,
@@ -31,7 +32,7 @@ export class LocationTrackerProvider {
   }
 
   startTracking(map) {
-    var marker;
+  //  var marker;
     // Background Tracking
     let config: BackgroundGeolocationConfig = {
       desiredAccuracy: 10,
@@ -65,9 +66,10 @@ export class LocationTrackerProvider {
     });
     // Turn ON the background-geolocation system.
     this.backgroundGeolocation.start();
+
     // Foreground Tracking
     let options = {
-      frequency: 3000,
+      frequency: 1000,
       enableHighAccuracy: true
     };
 
@@ -88,11 +90,11 @@ export class LocationTrackerProvider {
           });
         });
 
-        if (marker) {
-          map.removeLayer(marker);
+        if (this.marker) {
+          map.removeLayer(this.marker);
         }
         //displays users current location in a marker on the map
-        marker = leaflet.marker([this.latitude, this.longitude]).addTo(map)
+        this.marker = leaflet.marker([this.latitude, this.longitude]).addTo(map)
           .bindPopup('<b>Your Current Location!</b>');
       })
     });
@@ -101,6 +103,9 @@ export class LocationTrackerProvider {
   stopTracking(map) {
     this.backgroundGeolocation.finish();
     this.watch.unsubscribe();
+    if (this.marker) {
+      map.removeLayer(this.marker);
+    }
 
   }
 }

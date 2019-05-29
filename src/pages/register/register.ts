@@ -23,6 +23,8 @@ export class RegisterPage {
   typeConfirmPassword = 'password';
   showPass = false;
   showConfirmPass = false;
+  percentage = 0;
+//  emailTaken = false;
 
   constructor(private afAuth: AngularFireAuth, private formBuilder: FormBuilder, private afDatabase: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams) {
@@ -35,6 +37,7 @@ export class RegisterPage {
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')
+      //  validEmail = this.emailTaken;
       ])),
       firstName: new FormControl('', Validators.compose([
         Validators.required,
@@ -64,7 +67,7 @@ export class RegisterPage {
       email: [
         { type: 'required', message: 'Email is required' },
         { type: 'pattern', message: 'Must enter valid email address' },
-        { type: 'validEmail', message: 'Your email has already been taken.' }
+        { type: 'validEmail', message: 'This email has already been taken.' }
       ],
       password: [
         { type: 'required', message: 'Password is required' },
@@ -129,10 +132,20 @@ export class RegisterPage {
         }
       }
       catch (e) {
-        alert("Email Address Already Taken");
+        if (e.code == "auth/email-already-in-use") {
+          alert("Email Address Already Taken");
+          console.log(e);
+      //    this.emailTaken = true;
+        } else if (e.code == "auth/network-request-failed") {
+          alert("Error. No Internet Connection");
+          console.log(e);
+        } else {
+          alert("Unknown Error")
+          console.log(e);
+        }
       }
     } else {
-      console.log("Error");
+      console.log("Invalid Information Entered");
     }
   }
 }

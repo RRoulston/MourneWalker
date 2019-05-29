@@ -27,9 +27,9 @@ export class SlievedonardPage {
       });
     });
   }
-  //First method which runs on the hikes page
+  //First method which runs on the slieve donard page
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HikePage');
+    console.log('ionViewDidLoad SlieveDonardPage');
     this.showMap();
   }
 
@@ -64,7 +64,7 @@ export class SlievedonardPage {
     this.locationTrackerProvider.stopTracking(this.map);
     this.removeGeofence(this.map);
     this.map.setView([54.1868, -5.9208], 13);
-    this.map.removeLayer(this.marker);
+  //  this.map.removeLayer(this.marker);
   }
   //add markers to the map
   addMarkers(map) {

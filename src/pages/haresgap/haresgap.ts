@@ -1,7 +1,11 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
+import { Geofence } from '@ionic-native/geofence/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import leaflet from 'leaflet';
+
 
 @IonicPage()
 @Component({
@@ -13,11 +17,19 @@ export class HaresgapPage {
   //variables
   map: any;
   marker: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    private locationTrackerProvider: LocationTrackerProvider) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private geofence: Geofence,
+    private locationTrackerProvider: LocationTrackerProvider, private localNotifications: LocalNotifications,
+    private backgroundMode: BackgroundMode, private platform: Platform) {
+
+    platform.ready().then(() => {
+      this.backgroundMode.on('activate').subscribe(() => {
+        console.log('activated');
+      });
+    });
   }
 
-  //First method which runs on the hikes page
+  //First method which runs on the hares gap page
   ionViewDidLoad() {
     console.log('ionViewDidLoad HaresgapPage');
     console.log(this.mapRef);
@@ -40,17 +52,24 @@ export class HaresgapPage {
     }).addTo(this.map);
 
     //calling functions
-//    this.addBackgroundGeolocation(this.map);
     this.addMarkers(this.map);
     this.addPolylines(this.map);
   }
 
-
-  /*
-  addBackgroundGeolocation(map) {
-    this.locationTrackerProvider.startWatching(this.map);
+  //starts tracking your geolocation and adds geofences
+  startHike() {
+    this.locationTrackerProvider.startTracking(this.map);
+    this.addGeofence(this.map);
+    this.map.locate({ setView: true, maxZoom: 15 });
   }
-  */
+
+  //stop tracking your geolocation and adds geofences
+  stopHike() {
+    this.locationTrackerProvider.stopTracking(this.map);
+    this.removeGeofence(this.map);
+    this.map.setView([54.1868, -5.9208], 13);
+  //  this.map.removeLayer(this.marker);
+  }
 
   //add markers to the map
   addMarkers(map) {
@@ -146,5 +165,53 @@ export class HaresgapPage {
       weight: 2
     }).addTo(this.map);
     map.fitBounds(path.getBounds());
+  }
+
+  addGeofence(map) {
+    this.backgroundMode.enable();
+    // initialize the plugin
+    this.geofence.initialize().then(
+      // resolved promise does not return a value
+      () => console.log('Geofence Plugin Ready'),
+      (err) => console.log(err)
+    )
+
+    //geofence for reaching the top of Hares Gap
+    let fence = [{
+      id: 'haresgap', //any unique ID
+      latitude: 54.19021,  //center of geofence radius
+      longitude: -5.97407,
+      radius: 100, //radius to edge of geofence in meters
+      transitionType: 1, //triggers when geofence is entered
+      notification: { //notification settings
+        id: 1,
+        title: 'Top of Hares Gap!',
+        text: 'You Made it to the Top of Hares Gap!',
+        openAppOnClick: true //open app when notification is tapped
+      }
+    }
+  ]
+    //adds geofence
+    this.geofence.addOrUpdate(fence).then(
+      () => console.log('Geofence added'),
+      (err) => console.log('Geofence failed to add')
+    );
+    //triggers when geofence is crossed, sending notification to phone
+    this.geofence.onTransitionReceived().subscribe(resp => {
+      console.log("Geofence transition detected", resp);
+      this.localNotifications.schedule({
+        id: 1,
+        title: resp[0].notification.title,
+        text: resp[0].notification.text,
+        vibrate: true
+      })
+    });
+  }
+
+  removeGeofence(map) {
+    this.geofence.removeAll().then(
+      () => console.log('Geofence removed'),
+      (err) => console.log('Geofence failed to remove')
+    );
   }
 }
