@@ -18,8 +18,16 @@ export class HomePage {
   hikes: any;
   percentage = 0;
 
+  //itemsRef: AngularFireList<any>;
+  //items: Observable<any[]>;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private afAuth: AngularFireAuth, private afDatabase: AngularFireDatabase) {
+      /*
+    this.itemsRef = db.list('/mournewalker');
+    this.items = this.itemsRef.valueChanges();
+    this.items.subscribe(res => console.log(res));
+    */
   }
 
   ionViewDidLoad() {

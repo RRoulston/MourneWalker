@@ -40,6 +40,5 @@
     <button ion-button (click)="register()">Register</button>
     <button ion-button (click)="skip()">Skip</button>
       <p *ngIf="!loginForm.valid && loginAttempt" style="color:#FF0000;">Please Ensure Email and Password fields <br /> have Valid Information </p>
-      <p *ngIf="loginForm.valid && loginAttempt" style="color:#FF0000;"> The email address or password you have<br /> entered is incorrect. Please try again</p>
   </ion-item>
 </ion-content>

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
+import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 
 @IonicPage()
 @Component({
@@ -16,7 +17,8 @@ export class ProfilePage {
   loggedIn: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private fireAuth: AngularFireAuth, private afDatabase: AngularFireDatabase, private _app: App) {
+    private fireAuth: AngularFireAuth, private afDatabase: AngularFireDatabase, private _app: App,
+    private locationTrackerProvider: LocationTrackerProvider) {
     this.user = fireAuth.authState;
 
     this.user.subscribe(
@@ -55,12 +57,14 @@ export class ProfilePage {
   }
 
   signOut() {
+    this.locationTrackerProvider.stopTrackingLogout();
     this.fireAuth.auth.signOut().then(res => {
       this._app.getRootNav().setRoot("LoginPage");
     });
   }
 
   login() {
+    this.locationTrackerProvider.stopTrackingLogout();
     this._app.getRootNav().setRoot("LoginPage");
   }
 }

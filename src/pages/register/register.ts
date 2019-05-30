@@ -24,7 +24,6 @@ export class RegisterPage {
   showPass = false;
   showConfirmPass = false;
   percentage = 0;
-//  emailTaken = false;
 
   constructor(private afAuth: AngularFireAuth, private formBuilder: FormBuilder, private afDatabase: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams) {
@@ -37,7 +36,6 @@ export class RegisterPage {
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')
-      //  validEmail = this.emailTaken;
       ])),
       firstName: new FormControl('', Validators.compose([
         Validators.required,

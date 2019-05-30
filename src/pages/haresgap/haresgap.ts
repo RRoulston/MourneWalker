@@ -40,7 +40,7 @@ export class HaresgapPage {
   //Creates a map from mapbox, with an outdoors layer
   showMap() {
     //map opens at co-ordinates [54.1868, -5.9208] with a zoom 13
-    this.map = leaflet.map("map").setView([54.1868, -5.9208], 13);
+    this.map = leaflet.map("map").setView([54.2023, -5.9865], 13);
     leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       //maximum the map can zoom out to
@@ -60,15 +60,14 @@ export class HaresgapPage {
   startHike() {
     this.locationTrackerProvider.startTracking(this.map);
     this.addGeofence(this.map);
-    this.map.locate({ setView: true, maxZoom: 15 });
+    //this.map.locate({ setView: true, maxZoom: 15 });
   }
 
   //stop tracking your geolocation and adds geofences
   stopHike() {
     this.locationTrackerProvider.stopTracking(this.map);
     this.removeGeofence(this.map);
-    this.map.setView([54.1868, -5.9208], 13);
-  //  this.map.removeLayer(this.marker);
+    //this.map.setView([54.2023, -5.9865], 13);
   }
 
   //add markers to the map
@@ -164,7 +163,6 @@ export class HaresgapPage {
       opacity: 1.0,
       weight: 2
     }).addTo(this.map);
-    map.fitBounds(path.getBounds());
   }
 
   addGeofence(map) {

@@ -59,15 +59,14 @@ export class SlievebinnianPage {
   startHike() {
     this.locationTrackerProvider.startTracking(this.map);
     this.addGeofence(this.map);
-    this.map.locate({ setView: true, maxZoom: 15 });
+    //this.map.locate({ setView: true, maxZoom: 15 });
   }
 
   //stop tracking your geolocation and adds geofences
   stopHike() {
     this.locationTrackerProvider.stopTracking(this.map);
     this.removeGeofence(this.map);
-    this.map.setView([54.1868, -5.9208], 13);
-  //  this.map.removeLayer(this.marker);
+    //this.map.setView([54.1486, -5.9616], 13);
   }
 
   //add markers to the map

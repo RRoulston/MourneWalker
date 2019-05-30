@@ -17,6 +17,7 @@ export class LoginPage {
   loginAttempt = false;
   type = 'password';
   showPass = false;
+  vMessage: any;
 
   constructor(private afAuth: AngularFireAuth, private formBuilder: FormBuilder,
     public navCtrl: NavController, public navParams: NavParams) {
@@ -77,6 +78,10 @@ export class LoginPage {
           alert("Error. No Internet Connection");
           console.log(e);
         } else if (e.code == "auth/user-not-found") {
+          alert("Error. Email Address Not Found");
+          console.log(e);
+        } else if (e.code == "auth/wrong-password") {
+          alert("Error. Password Does Not Match Email Address");
           console.log(e);
         } else {
           alert("Unknown Error")

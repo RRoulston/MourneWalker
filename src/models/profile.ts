@@ -3,5 +3,5 @@ export interface Profile {
   lastName: string;
   dateOfBirth: Date;
   mobile: number;
-  percentage: number;
+  //percentage: number;
 }

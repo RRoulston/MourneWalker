@@ -19,6 +19,7 @@ export class SosPage {
   latitude: any;
   longitude: any;
   watch: any;
+  marker: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private geolocation: Geolocation, private callNumber: CallNumber,
@@ -30,10 +31,10 @@ export class SosPage {
     this.showMap();
   }
 
-  ionViewDidLeave(){
-    this.watch.unsubscribe();
-    console.log("unsubscribe");
-}
+  ionViewWillEnter() {
+    console.log('ionViewDidLoad SosPage');
+      this.addGeoLocation(this.map);
+  }
 
   //Code from https://leafletjs.com/
   //Creates a map from mapbox, with an outdoors layer
@@ -49,29 +50,35 @@ export class SosPage {
       accessToken: 'pk.eyJ1IjoicmFscGhyb3Vsc3RvbiIsImEiOiJjam95aDhpMzEyYnB3M3ZrZnE3MjdjOWVlIn0.FeeqFD1DuDkmlrN0fD8TVg'
     }).addTo(this.map);
     //calling functions
-    this.addGeoLocation(this.map);
+    //this.addGeoLocation(this.map);
     this.map.locate({ setView: true, maxZoom: 15 });
   }
 
   //using geolocation with Ionic https://ionicframework.com/docs/native/geolocation/
   //adds users current location to the map using Ionic Geolocation plugin
   addGeoLocation(map) {
-    var marker;
-    let options = {
-        enableHighAccuracy: true,
-        frequency: 3000
-      };
-    //this.locationTrackerProvider.startTracking(this.map);
-    this.watch = this.geolocation.watchPosition(options).subscribe((resp) => {
+    //var marker;
+    this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
-      if (marker) {
-        map.removeLayer(marker);
+      //displays users current location in a marker on the map
+      if (this.marker) {
+        map.removeLayer(this.marker);
       }
-      marker = leaflet.marker([this.latitude, this.longitude]).addTo(this.map)
+      this.marker = leaflet.marker([this.latitude, this.longitude]).addTo(this.map)
         .bindPopup('<b>Your Current Location!</b>');
+    }).catch((error) => {
+      console.log('Error getting location', error);
     });
-    //displays users current location in a marker on the map
+    /*
+        //this.locationTrackerProvider.startTracking(this.map);
+        this.watch = this.geolocation.watchPosition(options).subscribe((resp) => {
+          this.latitude = resp.coords.latitude;
+          this.longitude = resp.coords.longitude;
+          if (marker) {
+            map.removeLayer(marker);
+          }
+          */
   }
 
   //make call to specified number, true variable ensures the app bypasses the
@@ -88,7 +95,7 @@ export class SosPage {
     var messageInfo = {
       phoneNumber: "07443437927",
       textMessage: 'Users has requested assitance at location: Latitude ' +
-       this.latitude + ' Longitude: ' + this.longitude
+        this.latitude + ' Longitude: ' + this.longitude
     };
     //request permission from the user to send SMS from their phone, if they accept send the text.
     this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(() => {

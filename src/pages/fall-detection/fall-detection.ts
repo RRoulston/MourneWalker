@@ -88,7 +88,7 @@ export class FallDetectionPage {
       console.log("Motion Total:", this.motionTotal);
       if (this.motionTotal < 3) {
         setTimeout(() => {
-          if (this.motionTotal > 9.4 && this.motionTotal < 10.2) {
+          if (this.motionTotal > 9.6 && this.motionTotal < 10.1) {
             if (this.alertPresented == false) {
               this.alertPresented = true
               let alert = this.alertController.create({
@@ -122,7 +122,7 @@ export class FallDetectionPage {
                 text: 'The Fall Detection System has triggered, please let us know if youre ok',
                 vibrate: true,
               });
-              this.counter = 30;
+              this.counter = 10;
               clearInterval(this.timer)
               this.timer = setInterval(() => {
                 this.counter--;
@@ -135,7 +135,7 @@ export class FallDetectionPage {
               }, 1000);
             }
           }
-        }, 10000);
+        }, 5000);
       }
     });
   }
