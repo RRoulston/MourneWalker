@@ -86,9 +86,9 @@ export class FallDetectionPage {
       this.motionTotal = Math.sqrt(Math.pow(this.motionX, 2) + Math.pow(this.motionY, 2) + Math.pow(this.motionZ, 2));
 
       console.log("Motion Total:", this.motionTotal);
-      if (this.motionTotal < 3) {
+      if (this.motionTotal < 2.75) {
         setTimeout(() => {
-          if (this.motionTotal > 9.6 && this.motionTotal < 10.1) {
+          if (this.motionTotal > 9.7 && this.motionTotal < 10.1) {
             if (this.alertPresented == false) {
               this.alertPresented = true
               let alert = this.alertController.create({
@@ -112,7 +112,8 @@ export class FallDetectionPage {
                       this.alertPresented = false;
                     }
                   }
-                ]
+                ],
+                enableBackdropDismiss: false
               });
               alert.present();
               this.alarmProvider.play('fall');
@@ -122,20 +123,20 @@ export class FallDetectionPage {
                 text: 'The Fall Detection System has triggered, please let us know if youre ok',
                 vibrate: true,
               });
-              this.counter = 10;
+              this.counter = 15;
               clearInterval(this.timer)
               this.timer = setInterval(() => {
                 this.counter--;
                 if (this.counter == 0) {
                   clearInterval(this.timer);
                   this.sendText(this.latitude, this.longitude);
-                  this.alarmProvider.stop('alarm');
+                  this.alarmProvider.stop('fall');
                   this.alertPresented = false;
                 }
               }, 1000);
             }
           }
-        }, 5000);
+        }, 10000);
       }
     });
   }
